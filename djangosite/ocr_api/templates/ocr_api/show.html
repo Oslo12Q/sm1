@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/show.css">
-    <link rel="stylesheet" href="/static/js/dropzone.min.css">
+    <!-- <link rel="stylesheet" href="/static/js/dropzone.min.css"> -->
     <title>Document</title>
 </head>
 
@@ -67,59 +67,8 @@
         </div>
     </div>
     <script src="/static/js/jquery.min.js"></script>
-    <!-- <script src="../js/imageUpload.js"></script> -->
-    <script>
-          function convertBase64UrlToBlob(urlData, filetype){
-        //去掉url的头，并转换为byte
-        var bytes = window.atob(urlData.split(',')[1]);
-        
-        //处理异常,将ascii码小于0的转换为大于0
-        var ab = new ArrayBuffer(bytes.length);
-        var ia = new Uint8Array(ab);
-        var i;
-        for (i = 0; i < bytes.length; i++) {
-            ia[i] = bytes.charCodeAt(i);
-        }
-
-        return new Blob([ab], {type : filetype});
-    }
-    var $input=$('.fileUpload');
-
-
-$('.fileUpload').change(function() {
-        var input =$('.fileUpload');
-        var files = input.files || [];
-        if (files.length === 0) {
-            return;
-        }
-
-        console.log('选中 ' + files.length + ' 个文件');
-
-        // 遍历选中的文件，预览、上传
-        $.each(files, function (key, file) {
-            var filename = file.name || '';
-            var fileType = file.type || '';
-            
-            var reader = new FileReader();
-            // onload事件
-            reader.onload = function (e) {
-                var base64 = e.target.result || this.result;
-                var formData = new FormData();
-                
-                formData.append("upload_file", convertBase64UrlToBlob(base64, fileType), filename);
-                var xhr = new XMLHttpRequest();
-                // 开始上传
-                xhr.open('POST', "http://59.110.66.146:8088/api/ocr/index/", true);
-                
-                // 发送数据
-                xhr.send(formData);
-
-            };
-            
-            reader.readAsDataURL(file);
-        });
-})
-    </script>
+    <script src="/static/js/imageUpload.js"></script>
+  
 </body>
 
 </html>
