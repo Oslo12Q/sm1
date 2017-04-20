@@ -27,9 +27,9 @@ $(function() {
 
                     $('.mainImage').append(img);
                     $.ajax({
-                        url:"http://59.110.66.146:8088/api/ocr/index/",
+                        url:"/api/ocr/async_analysis/result/",
                         type:"post",
-                        data:{dataImage:dataImage,fid:ImageName},
+                        data:formData,
                         success:function(msg){
                              $.each(msg["indicators"], function(index, data) {
                              $.each(data, function(index1, data2) {
