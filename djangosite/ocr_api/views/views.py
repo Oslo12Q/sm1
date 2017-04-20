@@ -54,7 +54,7 @@ def async_analysis_result(request):
 
     imgdata=base64.b64decode(strs) 
     projectName = 'prefix_'
-    file_id = projectName + datetime.now().strftime("%Y%m%d%H%M%S")+'.jpg'
+    file_id = projectName + datetime.now().strftime("%Y%m%d%H%M%S")+'.jpg'+'.xls'
     print file_id
     file=open('C:/output/'+file_id,'wb')
     file.write(imgdata)  
