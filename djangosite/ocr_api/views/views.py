@@ -56,7 +56,7 @@ def async_analysis_result(request):
     projectName = 'prefix_'
     file_id = projectName + datetime.now().strftime("%Y%m%d%H%M%S")+'.jpg'
     print file_id
-    file=open('E:\\imgdata\\'+file_id,'wb')
+    file=open('C:/output/'+file_id,'wb')
     file.write(imgdata)  
     file.close()  
   #  file_id = request.GET.get('fid') or ''
