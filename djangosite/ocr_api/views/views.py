@@ -58,13 +58,14 @@ def async_analysis_result(request):
     print file_id
     file=open('C:/output/'+file_id,'wb')
     file.write(imgdata)  
-    file.close()  
+    #file.close()  
   #  file_id = request.GET.get('fid') or ''
 
     if not file_id:
         return get_json_response(request, dict(status='error', message='fid not found.', data=None))
 
     file_dest = _get_analysis_result_path(fid=file_id)
+    print file_dest
     file_name = file_dest.replace('C:/output/', '')
     if not file_dest:
         return get_json_response(request, dict(status='running', message='analysis is running.', data=None))
