@@ -49,11 +49,11 @@ def async_analysis_result(request):
     file_name = file_dest.replace('C:/output/', '')
     if not file_dest:
         return get_json_response(request, dict(status='running', message='analysis is running.', data=None))
-
+    print 3
     from sm.data_cleaning.data_clear import data_clear
     rsp_data = data_clear(file_dest)
   #  res_data = json.dumps(rsp_data)
-    print rsp_data
+    
     indicators, extra_info, unknown_indicators = rsp_data.get('indicators', []), rsp_data.get('extra_info', {}), rsp_data.get('unknown_indicators', [])
     result = dict(indicators=indicators, extra_info=extra_info)
 
