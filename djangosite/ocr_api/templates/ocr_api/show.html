@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/static/css/dropzone.min.css">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <style type="text/css">
+    body{
+        max-width: 1200px;
+    }
     .dropzone {
         border: 2px dashed #0087F7;
         border-radius: 5px;
@@ -31,9 +34,10 @@
         max-width: 500px;
         max-height: 400px;
     }
-    .dz-preview .dz-image{
-        width:95%;
-        height:95%;
+    .dz-preview>.dz-image>img{
+        width:90%;
+        height:90%;
+        padding:5%;
     }
     
     hr {
@@ -44,6 +48,9 @@
         width:100%;
         text-align: center;
     }
+    .headerHide{
+        display: none;
+    }
     </style>
 </head>
 
@@ -51,7 +58,10 @@
     <div class="container">
         <h3>化验单识别</h3>
         <hr style="margin-top: 0;" />
-        <div class="row dz-row">
+        <div class="row showImage">
+            
+        </div>
+        <div class="row dz-row upLoadHead">
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <form id="upload_form" class="dropzone" action="{% url 'sm.djangosite.ocr_api.views.views.async_analysis' %}" enctype="multipart/form-data" method="POST">
@@ -158,9 +168,7 @@ function get_ocr_result(fid) {
             $('.table1').append(table_str);
         $('#result-block').css('display', '');
 
-        $('.dz-image-preview').on('click',function(){
-            $('..dz-preview .dz-image').css({width:'100%',height:'100%'})
-        });
+
         // var timeout = setTimeout(function() {
         //     $('#progres_tip').css('display', '');
         // }, 1000);
