@@ -49,9 +49,9 @@ def async_analysis_results(request):
     return HttpResponse('ooooo')
 
 def async_analysis_result(request):
-
+    import pdb 
+    pdb.set_trace()
     strs = request.POST.get('dataImage',None)
-    print strs
     
     imgdata=base64.b64decode(strs) 
     projectName = 'prefix_'

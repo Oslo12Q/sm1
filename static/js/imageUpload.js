@@ -59,14 +59,10 @@ $(function() {
                     console.log(formData);
                     $('.mainImage').append(img);
                     var image_id=urlData();
-
                     $.ajax({
-                        url: 'http://59.110.66.146:8088/api/ocr/index/?image_id='+image_id+'&filename='+filename,
+                        url: 'http://59.110.66.146:8088/api/ocr/async_analysis/result/?image_id='+image_id+'&filename='+filename,
                         type: "POST",
                         data: {dataImage:base64},
-                        contentType:false,
-                        processData:false,
-                        cache:false,
                         success: function(msg) {
                             $.each(msg["indicators"], function(index, data) {
                                 $.each(data, function(index1, data2) {
