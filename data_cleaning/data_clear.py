@@ -115,6 +115,7 @@ def data_clear(filename, sheetindex=0):
     # 显示列
     # data_info = {"matched_cell":matched_cell,"unmatched_cell":unmatched_cell}
     data_info = {}
+    data_info.clear()
     data_info = {u"indicators":matched_cell,"extra_info":info,u"unknown_indicators":unmatched_cell}
    # print json.dumps(data_info, ensure_ascii=False, indent=4)
     return data_info
