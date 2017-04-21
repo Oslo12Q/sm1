@@ -167,11 +167,11 @@ function appendImage(){
     var fileImage;
     var base64Image;
     var reader;
-    $('.fileInput').on('change',function(){
+    $('.fileInput').change(function(){
         fileImage = this.files[0];
-        base64Image = e.target.result || this.result;
-        reader = new FileReader();
-        reader.readAsDataURL(fileImage);
+        var base64Image = e.target.result || this.result;
+        var reader = new FileReader();
+        var reader.readAsDataURL(fileImage);
         reader.onload = function(e) {
             createImg.src=base64Image;
             $('.topBorder').append(createImg);
