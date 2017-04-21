@@ -39,16 +39,7 @@ def async_analysis(request):
 
 
 def async_analysis_result(request):
-    #import pdb
-    #pdb.set_trace()
-   # strs = request.POST.get('dataImage',None)
-   # print strs
-   # imgdata=base64.b64decode(strs) 
-   # projectName = 'prefix_'
-   # file_id = projectName + datetime.now().strftime("%Y%m%d%H%M%S")+'.jpg'
-   # file=open('C:/work/'+file_id,'wb')
-   # file.write(imgdata) 
-   # print file_id
+
     file_id = request.GET.get('fid') or ''
     if not file_id:
         return get_json_response(request, dict(status='error', message='fid not found.', data=None))
