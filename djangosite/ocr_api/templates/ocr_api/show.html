@@ -31,7 +31,7 @@
         max-width: 500px;
         max-height: 400px;
     }
-    .dz-image{
+    .dz-preview .dz-image{
         width:95%;
         height:95%;
     }
@@ -42,6 +42,7 @@
     }
     .table1{
         width:100%;
+        text-align: center;
     }
     </style>
 </head>
@@ -79,7 +80,7 @@
                             <table class="tab table">
                                 
                             </table>
-                            <table class="table1 table" border="1" align="center" cellspacing="0" cellpadding="0">
+                            <table class="table1 table" border="1" cellspacing="0" cellpadding="0">
                                 <th>序号</th>
                                 <th>项目</th>
                                 <th>结果</th>
@@ -157,6 +158,9 @@ function get_ocr_result(fid) {
             $('.table1').append(table_str);
         $('#result-block').css('display', '');
 
+        $('.dz-image-preview').on('click',function(){
+            $('..dz-preview .dz-image').css({width:'100%',height:'100%'})
+        });
         // var timeout = setTimeout(function() {
         //     $('#progres_tip').css('display', '');
         // }, 1000);
