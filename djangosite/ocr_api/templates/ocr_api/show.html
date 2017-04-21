@@ -173,11 +173,11 @@ function get_ocr_result(fid) {
         $('#progres_tip').html('识别完成！');
         var base=$('.dz-image>img').attr('src');
 
+
         
-        function createImage(ele){
-            return document.createElement(ele);
-        }
-        var img=createImage('img').attr('src',base);
+        var img=document.createElement('img');
+        
+            img.setAttribute('src', base);
         $('.topBorder').append(img);
         $('#upload_form').hide();
         console.log(base)
