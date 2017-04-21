@@ -8,19 +8,6 @@
     <link rel="stylesheet" href="/static/css/dropzone.min.css">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <style type="text/css">
-    .container {
-        /*margin-top: 70px;*/
-    }
-    
-    .dz-row {
-        /*background-color: #E8E9EC;*/
-    }
-    
-    .idcard-result-row {
-        /*background-color: #646C7F;*/
-        /*color: white;*/
-    }
-    
     .dropzone {
         border: 2px dashed #0087F7;
         border-radius: 5px;
@@ -53,6 +40,9 @@
         margin-top: 40px;
         margin-bottom: 0;
     }
+    .table1{
+        width:100%;
+    }
     </style>
 </head>
 
@@ -84,16 +74,16 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <img id="img_loading" style="display: none;" src="/static/ocr_api/loading.gif">
                         <a id="result-doc-href" href='#' target="_blank" style="display: none;">Download ocr doc</a>
                         <div id="result-block">
                             <table class="tab table">
                                 
                             </table>
-                            <table class="table1 table">
+                            <table class="table1 table" boredr="1" cellspacing="0" cellpadding="0">
                                 <th>序号</th>
                                 <th>项目</th>
                                 <th>结果</th>
+                                <th>备注</th>
                             </table>
                         </div>
                     </div>
@@ -128,7 +118,6 @@ $('#upload_form').dropzone({
 
         $('.idcard-result-row').css('display', '');
         $('#idcard-preview').css('display', '');
-        // $('#img_loading').css('display', '');
 
         get_ocr_result(file_id);
     }
@@ -140,7 +129,6 @@ function get_ocr_result(fid) {
     $.get(url, function(data) {
         if (data.status == 'error') {
             alert(data.message);
-            $('#img_loading').css('display', '');
             return;
         }
         if (data.status == 'running') {
@@ -153,11 +141,10 @@ function get_ocr_result(fid) {
         var h3;
         var table_th = "";
         $('#progres_tip').html('识别完成！');
-        $('#img_loading').css('display', '');
         console.log(data)
         $.each(data.data["indicators"], function(index, data) {
             $.each(data, function(index1, data2) {
-                table_str += '<tr><td>' + index + '</td><td>' + index1 + '</td><td>' + data2 + '</td></tr>';
+                table_str += '<tr><td>' + index + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td>备注</td></tr>';
                 })
 
             });
@@ -165,17 +152,9 @@ function get_ocr_result(fid) {
                 table_th += '<tr><td class="border">' + index3 + '：' + data3 + '</td></tr>';
                 h3 = '<h3 style="text-align:center;width:100%;">' + data.data['extra_info']['医院名称'] + '</h3>'
             });
-            // $('.mainImage').after(h3);
             $('.result-block').append(h3);
             $('.tab').append(table_th);
             $('.table1').append(table_str);
-        // var json_str = '';
-        // json_str += JSON.stringify(data.data, null, 4);
-        // json_str = json_str.replace(/"(.+?)":/ig, '"<strong>$1</strong>":');
-        // json_str = json_str.replace(/\n/ig, "<br/>");
-        // json_str = json_str.replace(/\s/ig, "&nbsp;");
-
-        // $('#result-block').html(json_str);
         $('#result-block').css('display', '');
 
         // var timeout = setTimeout(function() {
