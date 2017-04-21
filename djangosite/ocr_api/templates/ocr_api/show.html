@@ -166,10 +166,10 @@ function appendImage(){
     var createImg = document.createElement('img');
     $('.fileInput').change(function(){
         fileImage = this.files[0];
-        var base64Image = this.result;
         var reader = new FileReader();
-        var reader.readAsDataURL(fileImage);
-        reader.onload = function() {
+            reader.readAsDataURL(fileImage);
+        reader.onload = function(e) {
+            var base64Image = e.target.result || this.result;
             createImg.src=base64Image;
             $('.topBorder').append(createImg);
         }
