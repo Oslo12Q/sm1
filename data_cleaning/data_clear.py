@@ -338,7 +338,7 @@ def get_alias_count (alias):
     line_first = cursor.fetchone()
     data =  line_first[0]
     cursor.close()
-    conn.close()
+
     if data > 0:
         return True
     return False
@@ -352,7 +352,7 @@ def get_name_alias(alias):
     line_first = cursor.fetchone()
     data =  line_first[0]
     cursor.close()
-    conn.close()
+
     return data
 
 if __name__ == '__main__':
