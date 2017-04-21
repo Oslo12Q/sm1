@@ -1,125 +1,122 @@
 # -*- coding: utf-8 -*-
-import logging
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 import os
 import pandas as pd
 import xlrd
 import re
+import pdb
+import json
 
-std_data_path = '{}{}'.format(os.path.dirname(os.path.abspath(__file__)), '/stadata/initdata_1373_all.csv')
-sta = pd.read_csv(std_data_path)
-tables = sta.as_matrix()
-
-
-def data_clear(filename):
-    data = xlrd.open_workbook(filename)
-    table = data.sheets()[0]
-
-    a = []
-    for i in range(table.nrows):
-        for j in range(len(table.row_values(i))-1):
-            m0=table.row_values(i-1)[j].encode('utf-8')
-            m1=table.row_values(i)[j].encode('utf-8')
-            m1=m1.split("（")[0]
-            m1=m1.split("(")[0]
-            m2=table.row_values(i)[j+1]
-            for k in range(len(tables)):
-                if (m1 == tables[k][0] or m1 == tables[k][1] or m0 == tables[k][1])and len(m1)>2:
-                    #print m1,m2
-                    try:
-                        d={}
-                        d["key"]=m1
-                        d["value"]=float(m2.encode('utf-8').replace('t','').replace(",","").replace(" ","").replace("“","").replace("<",""))
-                        a.append(d)
-                    except:
-                        continue
-    aa=[]
-    for i in a:
-        if i not in aa:
-            aa.append(i)
+def load_sta_data(filename):
+    std_data_path = '{}{}'.format(os.path.dirname(os.path.abspath(__file__)), filename)
+    sta = pd.read_csv(std_data_path)
+    sta_tables = sta.as_matrix()
+    return sta_tables
     
-    peopledata=pd.read_excel(filename)
-    mdata=peopledata.as_matrix()
+def load_excel(filename, byindex=0):
+    test_data = xlrd.open_workbook(filename)
+    sheet = test_data.sheets()[byindex]
+    return sheet
     
-    age = "".decode("utf-8")
-    sexy = "".decode("utf-8")
-    check_time = "".decode("utf-8")
-    report_time = "".decode("utf-8")
-    name = "".decode("utf-8")
-    hospital = "".decode("utf-8")
-    for i in mdata:
+def cell_clear(cell):
+    cell = cell.split("（")[0]
+    cell = cell.split("(")[0]
+    cell = cell.replace('t','').replace(",","").replace(" ","").replace("“","").replace("<","").replace("，","").replace("1",'')
+    return cell
+    
+def extra_info(filename):
+    peopleinfo = pd.read_excel(filename)
+    tables = peopleinfo.as_matrix()
+    
+    age = ""
+    sexy = ""
+    check_time = ""
+    report_time = ""
+    name = ""
+    hospital = ""
+    for i in tables:
         for j in i:
             
-            #年龄
-            agepat = '.*\d{1,}岁|年 龄.*\d{1,}|年齡.*\d{1,}|年龄.*\d{1,}|.*[男|女]\d{1,}'.decode("utf8")
-            try:
-                s = j.encode("utf-8")
-                if re.search(agepat,s.decode("utf-8")):
-                    age = re.search(agepat,s.decode("utf-8")).group(0)
-                    age=re.compile('\d{1,}').search(age).group(0)
-                    break
-            except:
-                continue
-    for i in mdata:
-        for j in i:
-            
-            #性别
-            sexypat = '男|女'.decode("utf8")
-            try:
-                s = j.encode("utf-8")
-                if re.search(sexypat,s.decode("utf-8")):
-                    sexy = re.search(sexypat,s.decode("utf-8")).group(0)
-                    break
-            except:
-                continue
-            
-    for i in mdata:
-        for j in i:
-            #检验日期
             check_timepat = '(?:采.*?时间|检验日期|本采集时间|采样时间|核收时间).*?(\d{2,4}.*?\d{1,2}.*?\d{1,2})'.decode("utf8")
-            try:
-                s = j.encode("utf-8")
-                if re.search(check_timepat,s.decode("utf-8")):
-                    check_time = re.search(check_timepat,s.decode("utf-8")).group(1)
-                    break
-            except:
-                continue
-    for i in mdata:
-        for j in i:
-            
-            #报告日期
+            sexypat = '男|女'.decode("utf8")
+            agepat = '.*\d{1,}岁|年 龄.*\d{1,}|年齡.*\d{1,}|年龄.*\d{1,}|.*[男|女]\d{1,}'.decode("utf8")
             report_timepat = '报.*?[时间|日期].*?(\d{2,4}.*?\d{1,2}.*?\d{1,2})'.decode("utf8")
-            try:
-                s = j.encode("utf-8")
-                if re.search(report_timepat,s.decode("utf-8")):
-                    report_time = re.search(report_timepat,s.decode("utf-8")).group(1)
-                    break
-            except:
-                continue
-    for i in mdata:
-        for j in i:
-            
-            #检查人名称
             namepat = '姓名.([\\u4e00-\\u9fa5]{2,4})'.decode("utf8")
-            try:
-                s = j.encode("utf-8")
-                if re.search(namepat,s.decode("utf-8")):
-                    name = re.search(namepat,s.decode("utf-8")).group(1)
-                    break
-            except:
-                continue
-    for i in mdata:
-        for j in i:
-            
-            #医院名称
             hospitalpat = '(.*医院)'.decode("utf8")
             try:
-                s = j.encode("utf-8")
-                if re.search(hospitalpat,s.decode("utf-8")):
-                    hospital = re.search(hospitalpat,s.decode("utf-8")).group(0)
-                    break
+                if re.search(agepat,j):
+                    age = re.search(agepat,j).group(0)
+                    age=re.compile('\d{1,}').search(age).group(0)
+            except:
+                continue
+                
+            try:
+                if re.search(sexypat,j):
+                    sexy = re.search(sexypat,j).group(0)
+            except:
+                continue
+            
+            try:
+                if re.search(check_timepat,j):
+                    check_time = re.search(check_timepat,j).group(1)
+            except:
+                continue
+                
+            try:
+                if re.search(report_timepat,j):
+                    report_time = re.search(report_timepat,j).group(1)
             except:
                 continue
 
+            try:
+                if re.search(namepat,j):
+                    name = re.search(namepat,j).group(1)
+            except:
+                continue
+
+            try:
+                if re.search(hospitalpat,j):
+                    hospital = re.search(hospitalpat,j).group(0)
+            except:
+                continue
     dict_word={u'姓名':name,u'性别':sexy,u'年龄':age,u'检验日期':check_time,u'报告日期':report_time,u'医院名称':hospital}
+    return dict_word
+
+def data_clear(filename, sheetindex=0, stafilename='/stadata/initdata_1373_all.csv'):
+    data = load_excel(filename,sheetindex)
+    tables = load_sta_data(stafilename)
+    matched_cell = []
+    unmatched_cell = []
+    matched_dic = []
+    chinesepat = '[\u4e00-\u9fa5]'.decode('utf-8')
+    for rowindex in range(data.nrows):
+        for colindex in range(data.ncols):
+            cell = data.row_values(rowindex)[colindex].encode('utf-8')
+            cell = cell_clear(cell)
+            for index in range(len(tables)):
+                if cell == tables[index][0]:
+                    if cell not in matched_cell:
+                        matched_cell.append(cell)
+                        dic = {}
+                        dic[cell] = data.row_values(rowindex)[colindex+1]
+                        matched_dic.append(dic)
+                        break
+            for index in range(len(tables)):
+                if cell not in matched_cell:
+                    if not re.search(chinesepat, cell):
+                        if cell not in unmatched_cell:
+                            unmatched_cell.append(cell)
+                            break
+            
+    info = extra_info(filename)
+    #print json.dumps(matched_dic, ensure_ascii=False,indent=4)
+    #print json.dumps(info, ensure_ascii=False, indent=4)
+    #print json.dumps(unmatched_cell, ensure_ascii=False, indent =4)
+    return_dict = {"indicators":matched_dic, "extra_info":info, "unknown_indicators":unmatched_cell}
+    #print json.dumps(return_dict, ensure_ascii=False, indent=4)
+    return return_dict
     
-    return filename,aa,dict_word
+if __name__ == '__main__':
+    data_clear(filename)
