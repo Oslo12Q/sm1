@@ -59,10 +59,11 @@ $(function() {
                     console.log(formData);
                     $('.mainImage').append(img);
                     var image_id=urlData();
+                    var newBase64=base64.substr(23);
                     $.ajax({
                         url: 'http://59.110.66.146:8088/api/ocr/async_analysis/result/?image_id='+image_id+'&filename='+filename,
                         type: "POST",
-                        data: {dataImage:base64},
+                        data: {dataImage:newBase64},
                         success: function(msg) {
                             $.each(msg["indicators"], function(index, data) {
                                 $.each(data, function(index1, data2) {
