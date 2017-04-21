@@ -12,6 +12,17 @@ from django.http import HttpResponse
 def get_json_response(request, json_rsp):
     return HttpResponse(json.dumps(json_rsp), content_type='application/json')
 
+def exhibition_index(request):
+    
+    return render(request,'ocr_api/index.html')
+
+def get_exhibition_index(request):
+    
+    return render(request,'ocr_api/lipei.html')
+
+def list_exhibition_index(request):
+    
+    return render(request,'ocr_api/list.html')
 
 def index(request):
     context = dict(status='ok', description='')
