@@ -49,6 +49,7 @@ def async_analysis_result(request):
 
     from sm.data_cleaning.data_clear import data_clear
     rsp_data = data_clear(file_dest)
+    print rsp_data
     indicators, extra_info, unknown_indicators = rsp_data.get('indicators', []), rsp_data.get('extra_info', {}), rsp_data.get('unknown_indicators', [])
     result = dict(indicators=indicators, extra_info=extra_info)
     return get_json_response(request, dict(status='ok', message='success.', data=result))
