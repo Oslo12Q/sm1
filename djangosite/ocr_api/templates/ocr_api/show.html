@@ -142,6 +142,7 @@ $('#upload_form').dropzone({
     maxfilesexceeded: function(file) {
         this.removeAllFiles();
         this.addFile(file);
+        console.log(file)
     },
     sending: function(file) {
 
