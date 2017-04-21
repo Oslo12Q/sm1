@@ -8,7 +8,6 @@ import xlrd
 import re
 import pdb
 import json
-
 def load_sta_data(filename):
     std_data_path = '{}{}'.format(os.path.dirname(os.path.abspath(__file__)), filename)
     sta = pd.read_csv(std_data_path)
@@ -69,13 +68,11 @@ def extra_info(filename):
                     report_time = re.search(report_timepat,j).group(1)
             except:
                 continue
-
             try:
                 if re.search(namepat,j):
                     name = re.search(namepat,j).group(1)
             except:
                 continue
-
             try:
                 if re.search(hospitalpat,j):
                     hospital = re.search(hospitalpat,j).group(0)
@@ -83,7 +80,6 @@ def extra_info(filename):
                 continue
     dict_word={u'姓名':name,u'性别':sexy,u'年龄':age,u'检验日期':check_time,u'报告日期':report_time,u'医院名称':hospital}
     return dict_word
-
 def data_clear(filename, sheetindex=0, stafilename='/stadata/initdata_1373_all.csv'):
     data = load_excel(filename,sheetindex)
     tables = load_sta_data(stafilename)
