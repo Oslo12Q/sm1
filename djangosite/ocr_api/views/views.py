@@ -15,7 +15,7 @@ def get_json_response(request, json_rsp):
 
 def index(request):
     context = dict(status='ok', description='')
-    return render(request, 'ocr_api/ocr_upload.html', context=context)
+    return render(request, 'ocr_api/show.html', context=context)
     
 def async_analysis(request):
     if request.method != 'POST':
