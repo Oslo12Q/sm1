@@ -16,7 +16,9 @@ def get_json_response(request, json_rsp):
 def index(request):
     context = dict(status='ok', description='')
     return render(request, 'ocr_api/show.html', context=context)
-    
+
+
+from datetime import datetime   
 def async_analysis(request):
     if request.method != 'POST':
         return get_json_response(request, dict(status='error', message='only POST method supported.', data=None))
@@ -24,7 +26,8 @@ def async_analysis(request):
     if not file_obj:
         return get_json_response(request, dict(status='error', message='file object not found.', data=None))
 
-    file_name = 'prefix_{}_{}.jpg'.format(long(time.time()), random.randint(1000, 9999))
+    file_name = 'prefix_{}_{}.jpg'.format(datetime.now().strftime("%Y%m%d%H%M%S"),random.randint(1000, 9999))
+        #long(time.time()), random.randint(1000, 9999))
     file_dest = 'C:/input/{}'.format(file_name)
 
     writer = open(file_dest, 'wb+')
@@ -33,9 +36,6 @@ def async_analysis(request):
 
     return get_json_response(request, dict(status='ok', message='success', data=dict(fid=file_name)))
 
-import os
-import base64 
-from datetime import datetime
 
 
 def async_analysis_result(request):
