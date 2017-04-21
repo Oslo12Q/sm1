@@ -164,15 +164,12 @@ $('#upload_form').dropzone({
 function appendImage(){
 
     var createImg = document.createElement('img');
-    var fileImage;
-    var base64Image;
-    var reader;
     $('.fileInput').change(function(){
         fileImage = this.files[0];
-        var base64Image = e.target.result || this.result;
+        var base64Image = this.result;
         var reader = new FileReader();
         var reader.readAsDataURL(fileImage);
-        reader.onload = function(e) {
+        reader.onload = function() {
             createImg.src=base64Image;
             $('.topBorder').append(createImg);
         }
