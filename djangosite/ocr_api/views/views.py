@@ -42,6 +42,7 @@ def async_analysis_result(request):
         return get_json_response(request, dict(status='error', message='fid not found.', data=None))
 
     file_dest = _get_analysis_result_path(fid=file_id)
+    print file_dest
     file_name = file_dest.replace('C:/output/', '')
     if not file_dest:
         return get_json_response(request, dict(status='running', message='analysis is running.', data=None))
