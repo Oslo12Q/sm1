@@ -13,16 +13,6 @@ import json
 import pdb
 import MySQLdb
 
-cloumns = 2
-
-# 指标识别成功之后存放到的数组
-matched_cell = []
-# 指标识别失败之后存放的数组
-unmatched_cell = []
-# 已经识别的指标行信息以 字典形式 ({行号：指标}) 信息录入 该数组中
-datainfo = []
-# 存在指标的列(测试默认为0)
-clos = []
 
 # 字典加载
 def load_sta_data(filename):
@@ -57,6 +47,14 @@ def str_replace(str):
 
 # 数据清理
 def data_clear(filename, sheetindex=0):
+    # 指标识别成功之后存放到的数组
+    matched_cell = []
+    # 指标识别失败之后存放的数组
+    unmatched_cell = []
+    # 已经识别的指标行信息以 字典形式 ({行号：指标}) 信息录入 该数组中
+    datainfo = []
+    # 存在指标的列
+    clos = []
     # 加载exlce文件
     data = load_excel(filename,sheetindex)
     # 每列
@@ -76,6 +74,7 @@ def data_clear(filename, sheetindex=0):
             # 在字典中进行查找单元格中的值是否存在
             if get_alias_count(cell):
                 info = {}
+                info.clear()
                 # 坐标（行号）以及信息例如: "1":"白细胞"
                 info[rowindex] = get_name_alias(cell)
                 first.append(info)
@@ -92,15 +91,15 @@ def data_clear(filename, sheetindex=0):
     if length > 0:
         if length == 1:
             # 调用处理单列的函数
-            single_row(clos[0],data)
+            single_row(datainfo,matched_cell,unmatched_cell,clos[0],data)
         elif length == 2:
             if clos[0]+1 != clos[1]:
-                single_row(clos[0],data)
-                single_row(clos[1],data)
+                single_row(datainfo,matched_cell,unmatched_cell,clos[0],data)
+                single_row(datainfo,matched_cell,unmatched_cell,clos[1],data)
             else:
-                money_row(clos[0],clos[1],data)
+                money_row(datainfo,matched_cell,unmatched_cell,clos[0],clos[1],data)
         else:
-            if length%2 != 0:
+            if length % 2 != 0:
                 print "1"
             else:
                 # 升序排序
@@ -110,18 +109,17 @@ def data_clear(filename, sheetindex=0):
                     if x+1 in arr:
                         arr1.append(x)
                 for y in arr1:
-                    money_row(y,y+1,data)
+                    money_row(datainfo,matched_cell,unmatched_cell,y,y+1,data)
     info = extra_info(filename)
-    # 显示列
-    # data_info = {"matched_cell":matched_cell,"unmatched_cell":unmatched_cell}
-    data_info = {}
+    data_info ={}
     data_info.clear()
+    # 显示列
     data_info = {u"indicators":matched_cell,"extra_info":info,u"unknown_indicators":unmatched_cell}
-   # print json.dumps(data_info, ensure_ascii=False, indent=4)
     return data_info
+    #print json.dumps(data_info, ensure_ascii=False, indent=4)
 
 # 双列处理
-def money_row(first_clo,scond_clo,data):
+def money_row(datainfo,matched_cell,unmatched_cell,first_clo,scond_clo,data):
     # 第一列指标信息
     arr1 = datainfo[0]
     # 第二列指标信息
@@ -197,7 +195,7 @@ def money_row(first_clo,scond_clo,data):
                 unmatched1[unmatched1_name] = unmatched1_info
                 unmatched_cell.append(unmatched1)
 # 单列别名数据操作,参数为excle数据
-def single_row(clo,data):
+def single_row(datainfo,matched_cell,unmatched_cell,clo,data):
     # 从已经识别的指标行信息读取第一个数组信息作为下面遍历单列的数组集合
     arr = datainfo[0]
     #　数据去重
@@ -330,8 +328,9 @@ def extra_info(filename):
 
 # 通过别名在数据库进行查询是否存在
 def get_alias_count (alias):
- #   conn=MySQLdb.connect(host='127.0.0.1',user='root',passwd='root',db='medical',port=3306,charset='utf8')
+    #conn=MySQLdb.connect(host='59.110.66.146',user='root',passwd='qazsedc2016',db='shumei',port=3306,charset='utf8')
     conn=MySQLdb.connect(host='127.0.0.1',user='root',passwd='qazsedc2016',db='shumei',port=3306,charset='utf8')
+    #conn=MySQLdb.connect(host='211.149.174.93',user='shumei',passwd='shumei',db='shumei',port=3306,charset='utf8')
     #211.149.174.93
     sql = "select count(*) from medical_test_index_alias_dict where test_idx_alias = '"+alias+"'"
     cur=conn.cursor()
@@ -346,6 +345,7 @@ def get_alias_count (alias):
 
 # 通过别名在数据库读取相对于的名字
 def get_name_alias(alias):
+    #conn=MySQLdb.connect(host='59.110.66.146',user='root',passwd='qazsedc2016',db='shumei',port=3306,charset='utf8')
     conn=MySQLdb.connect(host='127.0.0.1',user='root',passwd='qazsedc2016',db='shumei',port=3306,charset='utf8')
     #conn=MySQLdb.connect(host='211.149.174.93',user='shumei',passwd='shumei',db='shumei',port=3306,charset='utf8')
     sql = "select test_idx_name from medical_test_index_alias_dict where test_idx_alias = '"+alias+"'"
@@ -362,4 +362,14 @@ if __name__ == '__main__':
     # 双排 7 、17、19、
     # 中英文 1、25、
     # 11、12、14、15、18、19、20、23
-    data_clear(filename)
+    arr99 = [1,2,5,6,7]
+    #data_clear("E:\\xls\\1.xlsx")
+    for i in arr99:
+        print "ii->>"+str(i)
+        str1 = "E:/xls/"+str(i)
+        str1 = str1+".xlsx" 
+        print str1
+        data_clear(str1)
+    # 没有数据：11、12、14、15、18、20、22、23、3
+    # 有问题：4(数组越界)、10、(编码)、16(编码)、
+    # 没有问题1、2、5、6、7、8、(9)、10(不全面)、13、17、19、21、24、
