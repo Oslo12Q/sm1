@@ -50,7 +50,7 @@ def async_analysis_results(request):
 
 def async_analysis_result(request):
 
-    strs = request.data.get('dataImage',None)
+    strs = request.POST.get('dataImage',None)
     print strs
     
     imgdata=base64.b64decode(strs) 
