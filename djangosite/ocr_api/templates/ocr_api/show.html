@@ -156,21 +156,21 @@ function get_ocr_result(fid) {
         $('#progres_tip').html('识别完成！');
         $('#img_loading').css('display', 'none');
         console.log(data)
-        // $.each(msg["indicators"], function(index, data) {
-        //     $.each(data, function(index1, data2) {
-        //         table_str += '<tr><td>' + index + '</td><td>' + index1 + '</td><td>' + data2 + '</td></tr>';
-        //     })
-        //     });
-        //     // $.each(msg["unknown_indicators"], function(index3, data3) {
-        //     //     table_header += '<tr><td>' + data3 + '</td></tr>';
-        //     // });
-        //     $.each(msg["extra_info"], function(index3, data3) {
-        //         table_th += '<tr><td class="border">' + index3 + '：' + data3 + '</td></tr>';
-        //         h3 = '<h3 style="text-align:center;">' + msg['extra_info']['医院名称'] + '</h3>'
-        //     });
-        //     // $('.mainImage').after(h3);
-        //     $('.tab').append(table_th);
-        //     $('.table1').append(table_str);
+        $.each(data.data["indicators"], function(index, data) {
+            $.each(data, function(index1, data2) {
+                table_str += '<tr><td>' + index + '</td><td>' + index1 + '</td><td>' + data2 + '</td></tr>';
+            })
+            });
+            // $.each(msg["unknown_indicators"], function(index3, data3) {
+            //     table_header += '<tr><td>' + data3 + '</td></tr>';
+            // });
+            $.each(data.data["extra_info"], function(index3, data3) {
+                table_th += '<tr><td class="border">' + index3 + '：' + data3 + '</td></tr>';
+                h3 = '<h3 style="text-align:center;">' + msg['extra_info']['医院名称'] + '</h3>'
+            });
+            // $('.mainImage').after(h3);
+            $('.tab').append(table_th);
+            $('.table1').append(table_str);
         // var json_str = '';
         // json_str += JSON.stringify(data.data, null, 4);
         // json_str = json_str.replace(/"(.+?)":/ig, '"<strong>$1</strong>":');
