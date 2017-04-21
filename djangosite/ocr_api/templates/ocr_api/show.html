@@ -10,6 +10,7 @@
     <style type="text/css">
     body{
         max-width: 1200px;
+        margin:0 auto;
     }
     .dropzone {
         border: 2px dashed #0087F7;
@@ -63,12 +64,19 @@
         display: none;
     }
     .topBorder{
+        width:100%;
+        height:300px;
         border: 2px dashed #0087F7;
     }
     .topBorder>img{
         width:90%;
         height: 90%;
         padding:5%;
+    }
+    .fileInput{
+        width:100%;;
+        height: 100%;
+        display: block;
     }
     </style>
 </head>
@@ -88,6 +96,7 @@
                         <span class="dz-message-normal">
                         <span class="dz-message-bold">点击</span>或将文件<span class="dz-message-bold">拖拽</span>到这里进行上传
                         </span>
+                        <input type="file" style="opacity: 0;" class="fileInput">
                     </div>
                 </form>
             </div>
@@ -152,7 +161,23 @@ $('#upload_form').dropzone({
         get_ocr_result(file_id);
     }
 });
+function appendImage(){
 
+    var createImg = document.createElement('img');
+    var fileImage;
+    var base64Image;
+    var reader;
+    $('.fileInput').on('change',function(){
+        fileImage = this.files[0];
+        base64Image = e.target.result || this.result;
+        reader = new FileReader();
+        reader.readAsDataURL(fileImage);
+        reader.onload = function(e) {
+            createImg.src=base64Image;
+            $('.topBorder').append(createImg);
+        }
+    })
+}
 function get_ocr_result(fid) {
     var url = '/api/ocr/async_analysis/result/?fid=' + fid + '&type=info';
     console.log('Requesting ' + url);
@@ -171,16 +196,9 @@ function get_ocr_result(fid) {
         var h3;
         var table_th = "";
         $('#progres_tip').html('识别完成！');
-        var base=$('.dz-image>img').attr('src');
-
-
-        
-        var img=document.createElement('img');
-        
-            img.setAttribute('src', base);
-        $('.topBorder').append(img);
-        $('#upload_form').hide();
-        console.log(base)
+        // 创建图片
+        appendImage();
+        $('.upload_form').css({display:'none'});
 
         $.each(data.data["indicators"], function(index, data) {
             $.each(data, function(index1, data2) {
