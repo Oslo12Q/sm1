@@ -36,21 +36,13 @@ def async_analysis(request):
 import os
 import base64 
 from datetime import datetime
-def async_analysis_results(request):
-    strs=''''''
 
-    imgdata=base64.b64decode(strs) 
-    projectName = 'prefix_'
-    file_id = projectName + datetime.now().strftime("%Y%m%d%H%M%S")+'.jpg'
-    print file_id
-    file=open('E:\\imgdata\\'+file_id,'wb')
-    file.write(imgdata)  
-    file.close()  
-    return HttpResponse('ooooo')
 
 def async_analysis_result(request):
+    #import pdb
+    #pdb.set_trace()
     strs = request.POST.get('dataImage',None)
-    
+    print strs
     imgdata=base64.b64decode(strs) 
     projectName = 'prefix_'
     file_id = projectName + datetime.now().strftime("%Y%m%d%H%M%S")+'.jpg'
