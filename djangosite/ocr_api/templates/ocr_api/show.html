@@ -86,7 +86,7 @@
                     <div class="col-md-12">
                         <img id="img_loading" style="display: none;" src="/static/ocr_api/loading.gif">
                         <a id="result-doc-href" href='#' target="_blank" style="display: none;">Download ocr doc</a>
-                        <div id="result-block" style="display: none;">
+                        <div id="result-block">
                             <table class="tab table">
                                 
                             </table>
@@ -96,9 +96,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-            
-            </div>
         </div>
         <hr/>
     </div>
@@ -141,7 +138,7 @@ function get_ocr_result(fid) {
     $.get(url, function(data) {
         if (data.status == 'error') {
             alert(data.message);
-            $('#img_loading').css('display', 'none');
+            $('#img_loading').css('display', '');
             return;
         }
         if (data.status == 'running') {
@@ -154,7 +151,7 @@ function get_ocr_result(fid) {
         var table_header = "";
         var table_th = "";
         $('#progres_tip').html('识别完成！');
-        $('#img_loading').css('display', 'none');
+        $('#img_loading').css('display', '');
         console.log(data)
         $.each(data.data["indicators"], function(index, data) {
             $.each(data, function(index1, data2) {
@@ -166,7 +163,7 @@ function get_ocr_result(fid) {
             // });
             $.each(data.data["extra_info"], function(index3, data3) {
                 table_th += '<tr><td class="border">' + index3 + '：' + data3 + '</td></tr>';
-                h3 = '<h3 style="text-align:center;">' + msg['extra_info']['医院名称'] + '</h3>'
+                h3 = '<h3 style="text-align:center;">' + data.data['extra_info']['医院名称'] + '</h3>'
             });
             // $('.mainImage').after(h3);
             $('.tab').append(table_th);
@@ -180,9 +177,9 @@ function get_ocr_result(fid) {
         // $('#result-block').html(json_str);
         $('#result-block').css('display', '');
 
-        var timeout = setTimeout(function() {
-            $('#progres_tip').css('display', 'none');
-        }, 1000);
+        // var timeout = setTimeout(function() {
+        //     $('#progres_tip').css('display', '');
+        // }, 1000);
     });
 }
 </script>
