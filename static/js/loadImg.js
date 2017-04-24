@@ -43,12 +43,10 @@ $(function() {
                             type: 'POST',
                             data: {fileData:baseStr},
                             success: function(msg) {
-                                console.log(msg)
                                 var file_id = msg.data.fid;
                                 get_ocr_result(file_id);
                             }
                         })
-
                     }
                 } else {
                     showInfo('文件太大');
@@ -74,6 +72,7 @@ $(function() {
             }
             if (data.status == 'running') {
                 setTimeout(function() {
+                    $('.upInfo').fadeIn();
                     get_ocr_result(fid);
                 }, 1000);
                 return;
