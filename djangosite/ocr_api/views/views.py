@@ -74,16 +74,14 @@ def async_analysis_result(request):
     from sm.data_cleaning.data_clear import data_clear
     try:
         rsp_data = data_clear(file_dest)
-        if rsp_data is None:
-            return get_json_response(request, dict(status='500', message='data_clear is None.', data=None))
-        else:
-            indicators, extra_info, unknown_indicators = rsp_data.get('indicators', []), rsp_data.get('extra_info', {}), rsp_data.get('unknown_indicators', [])
-            result = dict(indicators=indicators, extra_info=extra_info)
-            re = json.dumps(result,ensure_ascii=False)
-            print re
-            return get_json_response(request, dict(status='ok', message='success.', data=result))
+        
+        indicators, extra_info, unknown_indicators = rsp_data.get('indicators', []), rsp_data.get('extra_info', {}), rsp_data.get('unknown_indicators', [])
+        result = dict(indicators=indicators, extra_info=extra_info)
+        re = json.dumps(result,ensure_ascii=False)
+        print re
+        return get_json_response(request, dict(status='ok', message='success.', data=result))
     except Exception, err:
-         return get_json_response(request, dict(status='500', message='data_clear is 500.', data=None))
+        return get_json_response(request, dict(status='500', message='data_clear is 500.', data=None))
 
     # if request.GET.get('type') == 'info':
     #     return get_json_response(request, dict(status='ok', message='success', data=dict(doc_path='/api/ocr/async_analysis/result?fid=%s' % file_id)))
