@@ -97,7 +97,7 @@ def data_clear(filename, sheetindex=0):
                 single_row(datainfo,matched_cell,unmatched_cell,clos[0],data)
                 single_row(datainfo,matched_cell,unmatched_cell,clos[1],data)
             else:
-                money_row(datainfo,matched_cell,unmatched_cell,clos[0],clos[1],data)
+                money_row(0,datainfo,matched_cell,unmatched_cell,clos[0],clos[1],data)
         else:
             if length % 2 != 0:
                 print "1"
@@ -108,22 +108,26 @@ def data_clear(filename, sheetindex=0):
                 for x in arr:
                     if x+1 in arr:
                         arr1.append(x)
+                i = 0
                 for y in arr1:
-                    money_row(datainfo,matched_cell,unmatched_cell,y,y+1,data)
+                    #import pdb; pdb.set_trace()
+                    money_row(i,datainfo,matched_cell,unmatched_cell,y,y+1,data)
+                    #print json.dumps(matched_cell, ensure_ascii=False, indent=4)
+                    i=i+2
     info = extra_info(filename)
     data_info ={}
     data_info.clear()
     # 显示列
     data_info = {u"indicators":matched_cell,"extra_info":info,u"unknown_indicators":unmatched_cell}
-    return data_info
-    #print json.dumps(data_info, ensure_ascii=False, indent=4)
+    #return data_info
+    print json.dumps(data_info, ensure_ascii=False, indent=4)
 
 # 双列处理
-def money_row(datainfo,matched_cell,unmatched_cell,first_clo,scond_clo,data):
+def money_row(i,datainfo,matched_cell,unmatched_cell,first_clo,scond_clo,data):
     # 第一列指标信息
-    arr1 = datainfo[0]
+    arr1 = datainfo[i]
     # 第二列指标信息
-    arr2 = datainfo[1]
+    arr2 = datainfo[i+1]
     # 读取第一列的存在的指标的行存放到数组中
     rows1 = []
     for x in arr1:
@@ -151,14 +155,13 @@ def money_row(datainfo,matched_cell,unmatched_cell,first_clo,scond_clo,data):
         if x in rows1:
             for y in arr1:
                 # 用于标识已经找到该数据不继续往下执行
-                #flg = True
                 key = y.keys()[0]
                 if x == key :
                     matched = {}
                     matched.clear()
                     info = str(data.row_values(x)[first_clo+2])
-                    if info:
-                        matched_name = y.get(key)
+                    matched_name = y.get(key)
+                    if info and matched_name:
                         matched[matched_name] = info
                         matched_cell.append(matched)
                         break
@@ -170,26 +173,22 @@ def money_row(datainfo,matched_cell,unmatched_cell,first_clo,scond_clo,data):
                     matched = {}
                     matched.clear()
                     info = str(data.row_values(x)[scond_clo+1])
-                    if info:
-                        matched_name = y.get(key)
+                    matched_name = y.get(key)
+                    if info and matched_name:
                         matched[matched_name] = info
                         matched_cell.append(matched)
                     break
         else:
             unmatched = {}
             unmatched.clear()
-            #unmatched_name = str(data.row_values(x)[clo]).encode('utf-8')
             unmatched_name = str(data.row_values(x)[first_clo])
-            #unmatched_info = str(data.row_values(x)[clo+1]).encode('utf-8')
             unmatched_info = str(data.row_values(x)[first_clo+2])
             if unmatched_name and unmatched_info :
                 unmatched[unmatched_name] = unmatched_info
                 unmatched_cell.append(unmatched)
             unmatched1 = {}
             unmatched1.clear()
-            #unmatched_name = str(data.row_values(i)[clo]).encode('utf-8')
             unmatched1_name = str(data.row_values(x)[scond_clo])
-            #unmatched_info = str(data.row_values(i)[clo+1]).encode('utf-8')
             unmatched1_info = str(data.row_values(x)[scond_clo+1])
             if unmatched_name and unmatched_info :
                 unmatched1[unmatched1_name] = unmatched1_info
@@ -326,10 +325,9 @@ def extra_info(filename):
     dict_word={u'姓名':name,u'性别':sexy,u'年龄':age,u'检验日期':check_time,u'报告日期':report_time,u'医院名称':hospital}
     return dict_word
 
-from django.db import connection
 # 通过别名在数据库进行查询是否存在
 def get_alias_count (alias):
-   
+    
     sql = "select count(*) from medical_test_index_alias_dict where test_idx_alias = '"+alias+"'"
     cursor=connection.cursor()
     row = cursor.execute(sql)
@@ -343,7 +341,7 @@ def get_alias_count (alias):
 
 # 通过别名在数据库读取相对于的名字
 def get_name_alias(alias):
-   
+    
     sql = "select test_idx_name from medical_test_index_alias_dict where test_idx_alias = '"+alias+"'"
     cursor=connection.cursor()
     row = cursor.execute(sql)
@@ -354,18 +352,19 @@ def get_name_alias(alias):
     return data
 
 if __name__ == '__main__':
+    data_clear("E:/xls/5.xlsx")
     # 单列 5、6、8、9、13、24、2(无法识别 原因：中英文()有括号)、10(原因GBK无法编码)、(11 数据找不到)、14(找不到数据 原因：指标乱码)、16(原因：无法读取数据,GBK编码)、21(数据不全面)、(22 找不到数据 原因：有空列)、(23 找不到数据  原因：乱码)、
     # 双排 7 、17、19、
     # 中英文 1、25、
     # 11、12、14、15、18、19、20、23
-    arr99 = [1,2,5,6,7]
+    #arr99 = [1,2,5,6,7]
     #data_clear("E:\\xls\\1.xlsx")
-    for i in arr99:
+    '''for i in arr99:
         print "ii->>"+str(i)
         str1 = "E:/xls/"+str(i)
         str1 = str1+".xlsx" 
         print str1
-        data_clear(str1)
+        data_clear(str1)'''
     # 没有数据：11、12、14、15、18、20、22、23、3
     # 有问题：4(数组越界)、10、(编码)、16(编码)、
     # 没有问题1、2、5、6、7、8、(9)、10(不全面)、13、17、19、21、24、
