@@ -325,6 +325,7 @@ def extra_info(filename):
     dict_word={u'姓名':name,u'性别':sexy,u'年龄':age,u'检验日期':check_time,u'报告日期':report_time,u'医院名称':hospital}
     return dict_word
 
+from django.db import connection
 # 通过别名在数据库进行查询是否存在
 def get_alias_count (alias):
     
