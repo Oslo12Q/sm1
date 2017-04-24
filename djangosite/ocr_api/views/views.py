@@ -78,8 +78,10 @@ def async_analysis_result(request):
     else:
         indicators, extra_info, unknown_indicators = rsp_data.get('indicators', []), rsp_data.get('extra_info', {}), rsp_data.get('unknown_indicators', [])
         result = dict(indicators=indicators, extra_info=extra_info)
+        re = json.dumps(result,ensure_ascii=False)
+        print re
         return get_json_response(request, dict(status='ok', message='success.', data=result))
-        print get_json_response(request, dict(status='ok', message='success.', data=result))
+        
 
     # if request.GET.get('type') == 'info':
     #     return get_json_response(request, dict(status='ok', message='success', data=dict(doc_path='/api/ocr/async_analysis/result?fid=%s' % file_id)))

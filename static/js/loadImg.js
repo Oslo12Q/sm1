@@ -73,21 +73,22 @@ $(function() {
             if (data.status == 'running') {
                 setTimeout(function() {
                     $('.upInfo').fadeIn();
-                    get_ocr_result(fid);
+                    get_ocr_result(fid); 
                 }, 1000);
                 return;
             }
+            
             var table_str = "";
             var numberlist='';
             $.each(data.data["indicators"], function(index, data) {
                 $.each(data, function(index1, data2) {
-                    table_str += '<tr><td>' + index + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td></tr>';
-                    numberlist=index;
+                    table_str += '<tr><td>' + index+1 + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td></tr>';
+                    numberlist=index+1;
                 })
             });
             $('.table1').append(table_str);
             $('.mainTable').fadeIn();
-            $('.upInfo>span').html('识别完成！,已识别'+numberlist+'条信息。');
+            $('.upInfo>span').html('识别完成！,已识别'+numberlist+1+'条信息。');
         });
     }
 
