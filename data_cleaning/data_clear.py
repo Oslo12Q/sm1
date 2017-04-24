@@ -119,8 +119,8 @@ def data_clear(filename, sheetindex=0):
     data_info.clear()
     # 显示列
     data_info = {u"indicators":matched_cell,"extra_info":info,u"unknown_indicators":unmatched_cell}
-    #return data_info
-    print json.dumps(data_info, ensure_ascii=False, indent=4)
+    return data_info
+    #print json.dumps(data_info, ensure_ascii=False, indent=4)
 
 # 双列处理
 def money_row(i,datainfo,matched_cell,unmatched_cell,first_clo,scond_clo,data):
