@@ -85,7 +85,7 @@ $(function() {
             });
             $('.table1').append(table_str);
             $('.mainTable').fadeIn();
-            $('.upInfo>span').html('识别完成！');
+            $('.upInfo>span').html('识别完成！,已识别'+index+'条信息。');
         });
     }
 

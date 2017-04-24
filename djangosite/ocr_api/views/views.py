@@ -4,6 +4,7 @@ import logging
 import os
 import random
 import time
+import traceback
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -35,22 +36,27 @@ def index(request):
 import base64
 from datetime import datetime   
 def async_analysis(request):
-    if request.method != 'POST':
-        return get_json_response(request, dict(status='error', message='only POST method supported.', data=None))
+    try:
+        if request.method != 'POST':
+            return get_json_response(request, dict(status='error', message='only POST method supported.', data=None))
     
-    file_obj_base = request.POST.get('fileData', None)
-    if not file_obj_base:
-        return get_json_response(request, dict(status='error', message='file object not found.', data=None))
-    file_obj = base64.b64decode(file_obj_base)  
+        file_obj_base = request.POST.get('fileData', None)
+        if not file_obj_base:
+            return get_json_response(request, dict(status='error', message='file object not found.', data=None))
+        file_obj = base64.b64decode(file_obj_base)  
     
-    file_name = 'prefix_{}_{}.jpg'.format(datetime.now().strftime("%Y%m%d%H%M%S"),random.randint(1000, 9999))
-    file_dest = 'C:/input/{}'.format(file_name)
+        file_name = 'prefix_{}_{}.jpg'.format(datetime.now().strftime("%Y%m%d%H%M%S"),random.randint(1000, 9999))
+        file_dest = 'C:/input/{}'.format(file_name)
 
-    writer = open(file_dest, 'wb+')
-    writer.write(file_obj)
-    writer.close()
+        writer = open(file_dest, 'wb+')
+        writer.write(file_obj)
+        writer.close()
 
-    return get_json_response(request, dict(status='ok', message='success', data=dict(fid=file_name)))
+        return get_json_response(request, dict(status='ok', message='success', data=dict(fid=file_name)))
+    except Exception, err:
+        logging.error(err)
+        logging.error(traceback.format_exc())
+        return get_json_response(request, dict(suc_id=0, ret_cd=500, ret_ts=long(time.time()), pic_id=0, data=None))
 
 
 def async_analysis_result(request):
@@ -68,7 +74,7 @@ def async_analysis_result(request):
     from sm.data_cleaning.data_clear import data_clear
     rsp_data = data_clear(file_dest)
     if rsp_data is None:
-        return get_json_response(request, dict(status='running', message='data_clear is running.', data=None))
+        return get_json_response(request, dict(status='500', message='data_clear is None.', data=None))
     else:
         indicators, extra_info, unknown_indicators = rsp_data.get('indicators', []), rsp_data.get('extra_info', {}), rsp_data.get('unknown_indicators', [])
         result = dict(indicators=indicators, extra_info=extra_info)
