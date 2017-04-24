@@ -21,6 +21,7 @@ urlpatterns = patterns(
     (r'^async_analysis/$', 'async_analysis'),
     (r'^async_analysis/result/$', 'async_analysis_result'),
 
+    (r'^case_report/$'),'case_report'),
     (r'^exhibition_index/$','exhibition_index'),
     (r'^get_exhibition_index/$','get_exhibition_index'),
     (r'^list_exhibition_index/$','list_exhibition_index'),

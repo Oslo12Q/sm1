@@ -24,6 +24,10 @@ def list_exhibition_index(request):
     
     return render(request,'ocr_api/health.html')
 
+def case_report(request):
+    
+    return render(request,'ocr_api/casebook.html')
+
 def index(request):
     context = dict(status='ok', description='')
     return render(request, 'ocr_api/upload.html', context=context)
