@@ -108,7 +108,7 @@ DATABASES = {
         'PORT': '3306',
     }
 	
-#}
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
