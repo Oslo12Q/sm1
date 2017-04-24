@@ -326,35 +326,31 @@ def extra_info(filename):
     dict_word={u'姓名':name,u'性别':sexy,u'年龄':age,u'检验日期':check_time,u'报告日期':report_time,u'医院名称':hospital}
     return dict_word
 
+from django.db import connection
 # 通过别名在数据库进行查询是否存在
 def get_alias_count (alias):
-    #conn=MySQLdb.connect(host='59.110.66.146',user='root',passwd='qazsedc2016',db='shumei',port=3306,charset='utf8')
-    conn=MySQLdb.connect(host='127.0.0.1',user='root',passwd='qazsedc2016',db='shumei',port=3306,charset='utf8')
-    #conn=MySQLdb.connect(host='211.149.174.93',user='shumei',passwd='shumei',db='shumei',port=3306,charset='utf8')
-    #211.149.174.93
+   
     sql = "select count(*) from medical_test_index_alias_dict where test_idx_alias = '"+alias+"'"
-    cur=conn.cursor()
-    row = cur.execute(sql)
-    line_first = cur.fetchone()
+    cursor=connection.cursor()
+    row = cursor.execute(sql)
+    line_first = cursor.fetchone()
     data =  line_first[0]
-    cur.close()
-    conn.close()
+    cursor.close()
+    connection.close()
     if data > 0:
         return True
     return False
 
 # 通过别名在数据库读取相对于的名字
 def get_name_alias(alias):
-    #conn=MySQLdb.connect(host='59.110.66.146',user='root',passwd='qazsedc2016',db='shumei',port=3306,charset='utf8')
-    conn=MySQLdb.connect(host='127.0.0.1',user='root',passwd='qazsedc2016',db='shumei',port=3306,charset='utf8')
-    #conn=MySQLdb.connect(host='211.149.174.93',user='shumei',passwd='shumei',db='shumei',port=3306,charset='utf8')
+   
     sql = "select test_idx_name from medical_test_index_alias_dict where test_idx_alias = '"+alias+"'"
-    cur=conn.cursor()
-    row = cur.execute(sql)
-    line_first = cur.fetchone()
+    cursor=connection.cursor()
+    row = cursor.execute(sql)
+    line_first = cursor.fetchone()
     data =  line_first[0]
-    cur.close()
-    conn.close()
+    cursor.close()
+    connection.close()
     return data
 
 if __name__ == '__main__':

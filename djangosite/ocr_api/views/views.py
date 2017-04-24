@@ -18,30 +18,32 @@ def exhibition_index(request):
 
 def get_exhibition_index(request):
     
-    return render(request,'ocr_api/lipei.html')
+    return render(request,'ocr_api/settlement.html')
 
 def list_exhibition_index(request):
     
-    return render(request,'ocr_api/list.html')
+    return render(request,'ocr_api/health.html')
 
 def index(request):
     context = dict(status='ok', description='')
-    return render(request, 'ocr_api/show.html', context=context)
+    return render(request, 'ocr_api/upload.html', context=context)
 
-
+import base64
 from datetime import datetime   
 def async_analysis(request):
     if request.method != 'POST':
         return get_json_response(request, dict(status='error', message='only POST method supported.', data=None))
-    file_obj = request.FILES.get('file', None)
-    if not file_obj:
+    
+    file_obj_base = request.POST.get('fileData', None)
+    if not file_obj_base:
         return get_json_response(request, dict(status='error', message='file object not found.', data=None))
-
-    file_name = 'prefix_{}_{}.jpg'.format(long(time.time()), random.randint(1000, 9999))
+    file_obj = base64.b64decode(file_obj_base)  
+    
+    file_name = 'prefix_{}_{}.jpg'.format(datetime.now().strftime("%Y%m%d%H%M%S"),random.randint(1000, 9999))
     file_dest = 'C:/input/{}'.format(file_name)
 
     writer = open(file_dest, 'wb+')
-    writer.write(file_obj.read())
+    writer.write(file_obj)
     writer.close()
 
     return get_json_response(request, dict(status='ok', message='success', data=dict(fid=file_name)))
@@ -49,6 +51,7 @@ def async_analysis(request):
 
 def async_analysis_result(request):
     file_id = request.GET.get('fid') or ''
+    print file_id
     if not file_id:
         return get_json_response(request, dict(status='error', message='fid not found.', data=None))
 
