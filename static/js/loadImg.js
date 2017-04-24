@@ -78,14 +78,16 @@ $(function() {
                 return;
             }
             var table_str = "";
+            var numberlist='';
             $.each(data.data["indicators"], function(index, data) {
                 $.each(data, function(index1, data2) {
                     table_str += '<tr><td>' + index + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td></tr>';
+                    numberlist=index;
                 })
             });
             $('.table1').append(table_str);
             $('.mainTable').fadeIn();
-            $('.upInfo>span').html('识别完成！,已识别'+index+'条信息。');
+            $('.upInfo>span').html('识别完成！,已识别'+numberlist+'条信息。');
         });
     }
 
