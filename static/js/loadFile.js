@@ -96,7 +96,7 @@ $(function() {
                         table_str += '<tr><td>' + numberlist + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td><td></td></tr>';
                     })
                 });
-                $('.mainTable').append(table_header);
+                $('.mainTable').before(table_header);
                 $('.tab').append(table_info);
                 $('.table1').append(table_str);
                 $('.mainTable').fadeIn();
