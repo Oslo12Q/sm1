@@ -79,7 +79,8 @@ def async_analysis_result(request):
         result = dict(indicators=indicators, extra_info=extra_info)
         return get_json_response(request, dict(status='ok', message='success.', data=result))
     except Exception, err:
-         return get_json_response(request, dict(status='500', message='data_clear is 500.', data=None))
+        print err
+        return get_json_response(request, dict(status='500', message='data_clear is 500.', data=None))
 
 def _get_analysis_result_path(fid):
     for extension in ['.doc', '.pdf', '.xls', '.xlsx']:

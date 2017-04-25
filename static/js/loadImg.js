@@ -66,10 +66,8 @@ $(function() {
         
    function get_ocr_result(fid) {
         var url = '/api/ocr/async_analysis/result/?fid=' + fid + '&type=info';
-
         $.get(url, function(data) {
             var stringJson=JSON.stringify(data);
-            if(stringJson.indexOf('indicators')!=-1){
                 if (data.status == 'error') {
                     return;
                 }
@@ -80,20 +78,22 @@ $(function() {
                     }, 1000);
                     return;
                 }
+                if (data.status == '500') {
+                    $('.upInfo>span').html('无法正常识别！');
+                    return;
+                }
+
                 var table_str = "";
-                var numberlist='';
+                var numberlist=1;
                 $.each(data.data["indicators"], function(index, data) {
                     $.each(data, function(index1, data2) {
-                        table_str += '<tr><td>' + index+1 + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td></tr>';
-                        numberlist=index+1;
+                        numberlist++;
+                        table_str += '<tr><td>' + numberlist + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td><td></td></tr>';
                     })
                 });
                 $('.table1').append(table_str);
                 $('.mainTable').fadeIn();
-                $('.upInfo>span').html('识别完成！已识别'+numberlist+1+'条信息。');
-            }else{
-                $('.upInfo>span').html('无法正常识别！');
-            }
+                $('.upInfo>span').html('识别完成！已识别'+numberlist+'条信息。');
         });
     }
 
