@@ -65,7 +65,9 @@ def async_prescription_result(request):
         
         return get_json_response(request, dict(status='ok', message='success.', data=result))
     except Exception, err:
-         return get_json_response(request, dict(status='500', message='data_clear is 500.', data=None))
+        logging.error(err)
+        logging.error(traceback.format_exc())
+        return get_json_response(request, dict(status='500', message='data_clear is 500.', data=None))
 
 
 def _get_analysis_result_path(fid):
