@@ -84,16 +84,24 @@ $(function() {
                 }
 
                 var table_str = "";
+                var table_info="";
+                var table_header="";
                 var numberlist=0;
+                $.each(data.data['extra_info'],function(infokey,infopval){
+                    table_info+='<tr><td>姓名：'+data.data['extra_info']['姓名']+'</td><td>'+'性别：'+data.data['extra_info']['性别']+'</td><td>'+'年龄：'+data.data['extra_info']['年龄']+'</td></tr><tr><td>'+'检验日期：'+data.data['extra_info']['检验日期']+'</td><td colspan="2">'+'报告日期：'+data.data['extra_info']['报告日期']+'</td></tr>';
+                    table_header='<h3 style="text-align:center;">'+data.data['extra_info']['医院名称']+'</h3>'
+                })
                 $.each(data.data["indicators"], function(index, data) {
                     $.each(data, function(index1, data2) {
                         numberlist++;
                         table_str += '<tr><td>' + numberlist + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td><td></td></tr>';
                     })
                 });
+                $('.mainTable').append(table_header);
+                $('.tab').append(table_info);
                 $('.table1').append(table_str);
                 $('.mainTable').fadeIn();
-                $('.upInfo>span').html('识别完成！已识别'+numberlist+'条信息。');
+                $('.upInfo>span').html('识别完成,已识别'+numberlist+'条信息。');
         });
     }
 

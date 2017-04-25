@@ -121,13 +121,41 @@ body {
     line-height: 30px;
     text-align: center;
     background: rgba(0,0,0,0.8);
-    border-radius:5px; 
+    border-radius:5px;
     display: none;
 }
 .table1{
     text-align: center;
 }
+#table1 tr:nth-child(odd){
+        background: #f0f0f0;
+    }
+    #table1{
+        border-collapse: collapse;
+    }
+    #table1 th{
+        padding:5px 0px;
+        border:1px solid #e5e5e5;
 
+    }
+    #table1 td{
+        padding:5px 0px;
+        border:1px solid #e5e5e5;
+    }
+    #tab td{
+        border-bottom:1px solid #f0f0f0;
+        width:50px;
+        padding:5px 0px;
+    }
+    #tab tr:nth-child(odd){
+        background: #f0f0f0;
+    }
+    #tab{
+        text-align: center;
+
+        border:1px solid #f0f0f0;
+        border-collapse: collapse;
+    }
 
 .hide {
     height: 50px;
