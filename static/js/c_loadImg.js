@@ -86,7 +86,7 @@ $(function() {
                 $.each(data.data["处方信息"], function(index, data) {
                     $.each(data, function(index1, data2) {
                         numberlist++;
-                        table_str += '<tr><td>' +numberlist + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td></tr>';
+                        table_str += '<tr><td>' +numberlist + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td><td></td></tr>';
                     })
                 });
                 $('.table1').append(table_str);
