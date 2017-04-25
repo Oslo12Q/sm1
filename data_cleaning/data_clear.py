@@ -384,28 +384,27 @@ def extra_info(filename):
 from django.db import connection
 # 通过别名在数据库进行查询是否存在
 def get_alias_count (alias):
-    #conn=MySQLdb.connect(host='127.0.0.1',user='root',passwd='root',db='medical',port=3306,charset='utf8')
     sql = "select count(*) from medical_test_index_alias_dict where test_idx_alias = '"+alias+"'"
-    cur=conn.cursor()
-    row = cur.execute(sql)
-    line_first = cur.fetchone()
+    cursor=connection.cursor()
+    row = cursor.execute(sql)
+    line_first = cursor.fetchone()
     data =  line_first[0]
-    cur.close()
-    conn.close()
+    cursor.close()
+    connection.close()
     if data > 0:
         return True
     return False
 
 # 通过别名在数据库读取相对于的名字
 def get_name_alias(alias):
-    #conn=MySQLdb.connect(host='127.0.0.1',user='root',passwd='root',db='medical',port=3306,charset='utf8')
+    
     sql = "select test_idx_name from medical_test_index_alias_dict where test_idx_alias = '"+alias+"'"
-    cur=conn.cursor()
-    row = cur.execute(sql)
-    line_first = cur.fetchone()
+    cursor=connection.cursor()
+    row = cursor.execute(sql)
+    line_first = cursor.fetchone()
     data =  line_first[0]
-    cur.close()
-    conn.close()
+    cursor.close()
+    connection.close()
     return data
 
 if __name__ == '__main__':
