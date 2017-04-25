@@ -76,7 +76,7 @@ def async_analysis_result(request):
         rsp_data = data_clear(file_dest)
         
         indicators, extra_info, unknown_indicators = rsp_data.get('indicators', []), rsp_data.get('extra_info', {}), rsp_data.get('unknown_indicators', [])
-        if rsp_data.get('indicators', []) is [] or ''
+        if rsp_data.get('indicators', []) is [] or '':
             return get_json_response(request, dict(status='running', message='indicators is None.', data=None))
         else:    
             result = dict(indicators=indicators, extra_info=extra_info)
