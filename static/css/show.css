@@ -8,7 +8,6 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
-/*    overflow: hidden;*/
 }
 
 .header {
@@ -16,7 +15,6 @@ body {
     width: 100%;
     height: 50px;
     background: #e36e4d;
-    /*display: none;*/
 }
 
 .center>ul>li {
@@ -152,11 +150,24 @@ body {
     }
     #tab{
         text-align: center;
-
         border:1px solid #f0f0f0;
         border-collapse: collapse;
     }
 
 .hide {
     height: 50px;
+}
+
+@media screen and (min-width: 800px){
+    .main>.mainImage{
+        width:90%;
+        max-height:600px;
+        margin:auto;
+    }
+    .fileArea>.formDt>.showPreView>img {
+        width: 100%;
+        height: 500px;
+        margin:auto;
+        display: block;
+    }
 }
