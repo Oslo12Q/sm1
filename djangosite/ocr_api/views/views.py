@@ -81,7 +81,8 @@ def async_analysis_result(request):
         print re
         return get_json_response(request, dict(status='ok', message='success.', data=result))
     except Exception, err:
-        print err
+        logging.error(err)
+        logging.error(traceback.format_exc())
         return get_json_response(request, dict(status='500', message='data_clear is 500.', data=None))
 
 def _get_analysis_result_path(fid):

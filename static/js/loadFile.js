@@ -44,7 +44,9 @@ $(function() {
                             data: {fileData:baseStr},
                             success: function(msg) {
                                 var file_id = msg.data.fid;
+                                $('.upInfo').fadeIn();
                                 get_ocr_result(file_id);
+
                             }
                         })
                     }
@@ -73,7 +75,6 @@ $(function() {
                 }
                 if (data.status == 'running') {
                     setTimeout(function() {
-                        $('.upInfo').fadeIn();
                         get_ocr_result(fid); 
                     }, 1000);
                     return;

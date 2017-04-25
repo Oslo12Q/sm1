@@ -44,7 +44,9 @@ $(function() {
                             data: {fileData:baseStr},
                             success: function(msg) {
                                 var file_id = msg.data.fid;
+                                $('.upInfo').fadeIn();
                                 get_ocr_result(file_id);
+
                             }
                         })
                     }
@@ -66,35 +68,39 @@ $(function() {
         
    function get_ocr_result(fid) {
         var url = '/api/ocr/async_analysis/result/?fid=' + fid + '&type=info';
-
         $.get(url, function(data) {
             var stringJson=JSON.stringify(data);
-            if(stringJson.indexOf('indicators')!=-1){
                 if (data.status == 'error') {
                     return;
                 }
                 if (data.status == 'running') {
                     setTimeout(function() {
-                        $('.upInfo').fadeIn();
                         get_ocr_result(fid); 
                     }, 1000);
                     return;
                 }
-                var table_str = "";
+                if (data.status == '500') {
+                    $('.upInfo>span').html('无法正常识别！');
+                    return;
+                }
 
-                var numberlist=1;
+                var table_str = "";
+                var table_info="";
+                var table_header="";
+                var numberlist=0;
+                table_info='<tr><td>姓名：'+data.data['基本信息']['姓名']+'</td><td>'+'性别：'+data.data['基本信息']['性别']+'</td><td>'+'年龄：'+data.data['基本信息']['年龄']+'</td></tr><tr><td>科室：'+data.data['基本信息']['科室']+'</td><td>医生：'+data.data['基本信息']['医生']+'</td></tr>';
+                table_header='<h3 style="text-align:center;">'+data.data['基本信息']['医院名称']+'</h3>'
                 $.each(data.data["处方信息"], function(index, data) {
                     $.each(data, function(index1, data2) {
                         numberlist++;
-                        table_str += '<tr><td>' +numberlist + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td><td></td></tr>';
+                        table_str += '<tr><td>' + numberlist + '</td><td>' + index1 + '</td><td>' + data2 + '</td></tr>';
                     })
                 });
+                $('.mainTable').append(table_header);
+                $('.tab').append(table_info);
                 $('.table1').append(table_str);
                 $('.mainTable').fadeIn();
                 $('.upInfo>span').html('识别完成,已识别'+numberlist+'条信息。');
-            }else{
-                $('.upInfo>span').html('无法正常识别！');
-            }
         });
     }
 
