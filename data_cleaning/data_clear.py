@@ -26,12 +26,17 @@ def load_excel(filename, byindex=0):
     test_data = xlrd.open_workbook(filename,encoding_override='utf-8')
     sheet = test_data.sheets()[byindex]
     return sheet
-    
+
 # 数据字符替换
 def cell_clear(cell):
     cell = cell.split("（")[0]
     cell = cell.split("(")[0]#.replace("1",'')
     cell = cell.replace('t','').replace(",","").replace(" ","").replace("“","").replace("<","").replace("，","").replace("\\",'').replace('\'','').replace('*','')
+    return cell
+
+# 指标值替换
+def cell_data_clear(cell):
+    cell = cell.replace('t','').replace('i','').replace(' ','').replace('\\','').replace(".“",'').replace(" ",'')
     return cell
 
 # 判断字符串是否存在()
@@ -68,7 +73,7 @@ def data_clear(filename, sheetindex=0):
         # 每行
         for rowindex in range(data.nrows):
             #　读取每一个单元格
-            cell = str(data.row_values(rowindex)[cloindex]).encode('utf-8')
+            cell = str(data.row_values(rowindex)[cloindex]).decode('utf-8')
             # cell单元格
             cell = cell_clear(cell)
             # 在字典中进行查找单元格中的值是否存在
@@ -100,6 +105,7 @@ def data_clear(filename, sheetindex=0):
                 money_row(0,datainfo,matched_cell,unmatched_cell,clos[0],clos[1],data)
         else:
             if length % 2 != 0:
+                
                 print "1"
             else:
                 # 升序排序
@@ -159,12 +165,21 @@ def money_row(i,datainfo,matched_cell,unmatched_cell,first_clo,scond_clo,data):
                 if x == key :
                     matched = {}
                     matched.clear()
-                    info = str(data.row_values(x)[first_clo+2])
+                    #info = str(data.row_values(x)[first_clo+2])
+                    info = cell_data_clear(data.row_values(x)[first_clo+2])
                     matched_name = y.get(key)
                     if info and matched_name:
                         matched[matched_name] = info
                         matched_cell.append(matched)
                         break
+                    else:
+                        info1 = cell_data_clear(data.row_values(x+1)[first_clo+2])
+                        info2 = cell_data_clear(data.row_values(x+2)[first_clo+2])
+                        if not info1 and not info2:
+                            info = cell_data_clear(data.row_values(x)[first_clo+3])
+                            matched[matched_name] = info
+                            matched_cell.append(matched)
+                            break
         # 判断集合中的key原数据是否存在
         elif x in rows2:
             for y in arr2:
@@ -172,27 +187,54 @@ def money_row(i,datainfo,matched_cell,unmatched_cell,first_clo,scond_clo,data):
                 if x == key :
                     matched = {}
                     matched.clear()
-                    info = str(data.row_values(x)[scond_clo+1])
+                    info = cell_data_clear(data.row_values(x)[scond_clo+1])
+                    #info = str(data.row_values(x)[scond_clo+1])
                     matched_name = y.get(key)
                     if info and matched_name:
                         matched[matched_name] = info
                         matched_cell.append(matched)
-                    break
+                        break
+                    else:
+                        info1 = cell_data_clear(data.row_values(x+1)[first_clo+1])
+                        info2 = cell_data_clear(data.row_values(x+2)[first_clo+1])
+                        if not info1 and not info2:
+                            info = cell_data_clear(data.row_values(x)[first_clo+2])
+                            matched[matched_name] = info
+                            matched_cell.append(matched)
+                            break
         else:
             unmatched = {}
             unmatched.clear()
             unmatched_name = str(data.row_values(x)[first_clo])
-            unmatched_info = str(data.row_values(x)[first_clo+2])
+            #unmatched_info = str(data.row_values(x)[first_clo+2])
+            unmatched_info = cell_data_clear(data.row_values(x)[scond_clo+2])
             if unmatched_name and unmatched_info :
                 unmatched[unmatched_name] = unmatched_info
                 unmatched_cell.append(unmatched)
+            else:
+                unmatched_info1 = cell_data_clear(data.row_values(x+1)[scond_clo+2])
+                unmatched_info2 = cell_data_clear(data.row_values(x+2)[scond_clo+2])
+                if not unmatched_info1 and not unmatched_info2:
+                    unmatched_info = cell_data_clear(data.row_values(x)[scond_clo+3])
+                    unmatched[unmatched_name] = unmatched_info
+                    unmatched_cell.append(unmatched)
+                    break
             unmatched1 = {}
             unmatched1.clear()
             unmatched1_name = str(data.row_values(x)[scond_clo])
-            unmatched1_info = str(data.row_values(x)[scond_clo+1])
+            #unmatched1_info = str(data.row_values(x)[scond_clo+1])
+            unmatched1_info = cell_data_clear(data.row_values(x)[scond_clo+1])
             if unmatched_name and unmatched_info :
                 unmatched1[unmatched1_name] = unmatched1_info
                 unmatched_cell.append(unmatched1)
+            else:
+                unmatched_info1 = cell_data_clear(data.row_values(x+1)[scond_clo+1])
+                unmatched_info2 = cell_data_clear(data.row_values(x+2)[scond_clo+1])
+                if not unmatched_info1 and not unmatched_info2:
+                    unmatched_info = cell_data_clear(data.row_values(x)[scond_clo+2])
+                    unmatched[unmatched_name] = unmatched_info
+                    unmatched_cell.append(unmatched)
+                    break
 # 单列别名数据操作,参数为excle数据
 def single_row(datainfo,matched_cell,unmatched_cell,clo,data):
     # 从已经识别的指标行信息读取第一个数组信息作为下面遍历单列的数组集合
@@ -227,13 +269,27 @@ def single_row(datainfo,matched_cell,unmatched_cell,clo,data):
                     matched = {}
                     matched.clear()
                     #info = str(data.row_values(i)[clo+1]).encode('utf-8')
-                    info = str(data.row_values(i)[clo+1])
-                    if info :
-                        # 读取数据
+                    try:
+                        info = str(data.row_values(i)[clo+1])
                         matched_name = j.get(key)
-                        matched[matched_name] = info
-                        matched_cell.append(matched)
-                        break
+                        if info and matched_name :
+                            # 读取数据
+                            matched[matched_name] = info
+                            #print json.dumps(matched,ensure_ascii=False,indent=4)
+                            matched_cell.append(matched)
+                            break
+                        else:
+                            info1 = data.row_values(i+1)[clo+1]
+                            info2 = data.row_values(i+2)[clo+1]
+                            if not info2 and not info1:
+                                info = str(data.row_values(i)[clo+2])
+                                # 读取数据
+                                #matched_name = j.get(key)
+                                matched[matched_name] = info
+                                matched_cell.append(matched)
+                                break;
+                    except:
+                        pass
         else:
             unmatched = {}
             unmatched.clear()
@@ -328,7 +384,6 @@ def extra_info(filename):
 from django.db import connection
 # 通过别名在数据库进行查询是否存在
 def get_alias_count (alias):
-    
     sql = "select count(*) from medical_test_index_alias_dict where test_idx_alias = '"+alias+"'"
     cursor=connection.cursor()
     row = cursor.execute(sql)
@@ -353,19 +408,22 @@ def get_name_alias(alias):
     return data
 
 if __name__ == '__main__':
-    data_clear("E:/xls/5.xlsx")
+    #data_clear("E:/xls/prefix_20170425103239_9717.jpg.xls")
     # 单列 5、6、8、9、13、24、2(无法识别 原因：中英文()有括号)、10(原因GBK无法编码)、(11 数据找不到)、14(找不到数据 原因：指标乱码)、16(原因：无法读取数据,GBK编码)、21(数据不全面)、(22 找不到数据 原因：有空列)、(23 找不到数据  原因：乱码)、
     # 双排 7 、17、19、
     # 中英文 1、25、
     # 11、12、14、15、18、19、20、23
-    #arr99 = [1,2,5,6,7]
+    #arr99 = [1,2,5,6,7,8,9,10,13,17,19,21,24]
     #data_clear("E:\\xls\\1.xlsx")
-    '''for i in arr99:
+    '''for i in range(1,25):
         print "ii->>"+str(i)
         str1 = "E:/xls/"+str(i)
         str1 = str1+".xlsx" 
         print str1
-        data_clear(str1)'''
+        try:
+            data_clear(str1)
+        except:
+            pass'''
     # 没有数据：11、12、14、15、18、20、22、23、3
     # 有问题：4(数组越界)、10、(编码)、16(编码)、
     # 没有问题1、2、5、6、7、8、(9)、10(不全面)、13、17、19、21、24、
