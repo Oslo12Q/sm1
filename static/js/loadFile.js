@@ -84,7 +84,7 @@ $(function() {
                 }
 
                 var table_str = "";
-                var numberlist=1;
+                var numberlist=0;
                 $.each(data.data["indicators"], function(index, data) {
                     $.each(data, function(index1, data2) {
                         numberlist++;
