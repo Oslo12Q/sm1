@@ -5,37 +5,21 @@ import os
 import random
 import time
 import traceback
+import base64
 
+from datetime import datetime 
 from django.shortcuts import render
 from django.http import HttpResponse
 
 
+def prescription(request):
+    
+    return render(request,'ocr_api/c_upload.html')
+
 def get_json_response(request, json_rsp):
     return HttpResponse(json.dumps(json_rsp), content_type='application/json')
 
-def exhibition_index(request):
-    
-    return render(request,'ocr_api/index.html')
-
-def get_exhibition_index(request):
-    
-    return render(request,'ocr_api/settlement.html')
-
-def list_exhibition_index(request):
-    
-    return render(request,'ocr_api/health.html')
-
-def case_report(request):
-    
-    return render(request,'ocr_api/casebook.html')
-
-def index(request):
-    context = dict(status='ok', description='')
-    return render(request, 'ocr_api/upload.html', context=context)
-
-import base64
-from datetime import datetime   
-def async_analysis(request):
+def async_prescription(request):
     try:
         if request.method != 'POST':
             return get_json_response(request, dict(status='error', message='only POST method supported.', data=None))
@@ -45,7 +29,7 @@ def async_analysis(request):
             return get_json_response(request, dict(status='error', message='file object not found.', data=None))
         file_obj = base64.b64decode(file_obj_base)  
     
-        file_name = 'prefix_{}_{}.jpg'.format(datetime.now().strftime("%Y%m%d%H%M%S"),random.randint(1000, 9999))
+        file_name = 'prescription_{}_{}.jpg'.format(datetime.now().strftime("%Y%m%d%H%M%S"),random.randint(1000, 9999))
         file_dest = 'C:/input/{}'.format(file_name)
 
         writer = open(file_dest, 'wb+')
@@ -59,7 +43,7 @@ def async_analysis(request):
         return get_json_response(request, dict(suc_id=0, ret_cd=500, ret_ts=long(time.time()), pic_id=0, data=None))
 
 
-def async_analysis_result(request):
+def async_prescription_result(request):
     file_id = request.GET.get('fid') or ''
 
     if not file_id:

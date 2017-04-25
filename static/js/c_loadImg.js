@@ -81,8 +81,9 @@ $(function() {
                     return;
                 }
                 var table_str = "";
+                 
                 var numberlist='';
-                $.each(data.data["indicators"], function(index, data) {
+                $.each(data.data["处方信息"], function(index, data) {
                     $.each(data, function(index1, data2) {
                         table_str += '<tr><td>' + index+1 + '</td><td>' + index1 + '</td><td>' + data2 + '</td><td></td></tr>';
                         numberlist=index+1;

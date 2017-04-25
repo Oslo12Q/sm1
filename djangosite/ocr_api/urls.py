@@ -29,6 +29,14 @@ urlpatterns = patterns(
 )
 
 urlpatterns += patterns(
+    'sm.djangosite.ocr_api.vieews.prescription',
+
+    (r'^prescription/$','prescription'),
+    (r'^async_prescription/$','async_prescription'),
+    (r'^async_prescription_result/$','async_prescription_result'),
+)
+
+urlpatterns += patterns(
     'sm.djangosite.ocr_api.views.medical_api',
 
     (r'^medical/analysis/$', 'analysis'),
