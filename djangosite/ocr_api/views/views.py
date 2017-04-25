@@ -76,17 +76,12 @@ def async_analysis_result(request):
         rsp_data = data_clear(file_dest)
         
         indicators, extra_info, unknown_indicators = rsp_data.get('indicators', []), rsp_data.get('extra_info', {}), rsp_data.get('unknown_indicators', [])
-        if rsp_data.get('indicators', []) is [] or '':
-            return get_json_response(request, dict(status='running', message='indicators is None.', data=None))
-        else:    
-            result = dict(indicators=indicators, extra_info=extra_info)
-            re = json.dumps(result,ensure_ascii=False)
-            print re
-            return get_json_response(request, dict(status='ok', message='success.', data=result))
-            
+        result = dict(indicators=indicators, extra_info=extra_info)
+        re = json.dumps(result,ensure_ascii=False)
+        print re
+        return get_json_response(request, dict(status='ok', message='success.', data=result))
     except Exception, err:
          return get_json_response(request, dict(status='500', message='data_clear is 500.', data=None))
-
 
 def _get_analysis_result_path(fid):
     for extension in ['.doc', '.pdf', '.xls', '.xlsx']:
