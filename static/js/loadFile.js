@@ -87,10 +87,8 @@ $(function() {
                 var table_info="";
                 var table_header="";
                 var numberlist=0;
-                $.each(data.data['extra_info'],function(infokey,infopval){
-                    table_info+='<tr><td>姓名：'+data.data['extra_info']['姓名']+'</td><td>'+'性别：'+data.data['extra_info']['性别']+'</td><td>'+'年龄：'+data.data['extra_info']['年龄']+'</td></tr><tr><td>'+'检验日期：'+data.data['extra_info']['检验日期']+'</td><td colspan="2">'+'报告日期：'+data.data['extra_info']['报告日期']+'</td></tr>';
-                    table_header='<h3 style="text-align:center;">'+data.data['extra_info']['医院名称']+'</h3>'
-                })
+                table_info='<tr><td>姓名：'+data.data['extra_info']['姓名']+'</td><td>'+'性别：'+data.data['extra_info']['性别']+'</td><td>'+'年龄：'+data.data['extra_info']['年龄']+'</td></tr><tr><td>'+'检验日期：'+data.data['extra_info']['检验日期']+'</td><td colspan="2">'+'报告日期：'+data.data['extra_info']['报告日期']+'</td></tr>';
+                table_header='<h3 style="text-align:center;">'+data.data['extra_info']['医院名称']+'</h3>'
                 $.each(data.data["indicators"], function(index, data) {
                     $.each(data, function(index1, data2) {
                         numberlist++;
