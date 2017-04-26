@@ -23,15 +23,15 @@ class handlePrescription(object):
         self.depaPath = 'DepartmentNames.txt'
         self.inputPath = 'input'
         self.outputPath = 'output'
-        with open('config') as config:
-            data = json.loads(config.read())
-            self.diagPath = data.get('diagnosisPath')
-            self.drugPath = data.get('drugPath')
-            self.depaPath = data.get('departmentPath')
-            self.inputPath = data.get('inputPath')
-            self.outputPath = data.get('outputPath')
-            self.fileIndex = []
-            self.infoDict = dict()
+       # with open('config') as config:
+       #     data = json.loads(config.read())
+       # self.diagPath = data.get('diagnosisPath')
+       # self.drugPath = data.get('drugPath')
+       # self.depaPath = data.get('departmentPath')
+       # self.inputPath = data.get('inputPath')
+       # self.outputPath = data.get('outputPath')
+        self.fileIndex = []
+        self.infoDict = dict()  
 
     def getfileindex(self):
         try:
