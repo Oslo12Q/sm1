@@ -11,7 +11,7 @@ from otherInfo import *
 from segtool import *
 import json
 path = os.path.dirname(os.path.abspath(__file__))
-config_path = path +'./config'
+#config_path = path +'./config'
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -23,7 +23,7 @@ class handlePrescription(object):
         self.depaPath = 'DepartmentNames.txt'
         self.inputPath = 'input'
         self.outputPath = 'output'
-        with open(config_path) as config:
+        with open(path) as config:
             data = json.loads(config.read())
             self.diagPath = data.get('diagnosisPath')
             self.drugPath = data.get('drugPath')
