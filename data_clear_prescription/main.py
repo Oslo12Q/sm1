@@ -10,40 +10,33 @@ from prescriptionInfo import *
 from otherInfo import *
 from segtool import *
 import json
-#path = os.path.dirname(os.path.abspath("config"))
-#config_path = path +'./config'
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
 class handlePrescription(object):
     def __init__(self):
-        self.diagPath = 'Diagnosis.txt'
-        self.drugPath = 'DrugNames.txt'
-        self.depaPath = 'DepartmentNames.txt'
-        self.inputPath = 'input'
-        self.outputPath = 'output'
-       # with open('config') as config:
-       #     data = json.loads(config.read())
-       # self.diagPath = data.get('diagnosisPath')
-       # self.drugPath = data.get('drugPath')
-       # self.depaPath = data.get('departmentPath')
-       # self.inputPath = data.get('inputPath')
-       # self.outputPath = data.get('outputPath')
-        self.fileIndex = []
-        self.infoDict = dict()  
-
-    def getfileindex(self):
-        try:
-            for parent, dirname, filename in os.walk(self.inputPath):
-                for file in filename:
-                    if file.find(".docx") != -1 or file.find(".doc") != -1:
-                        self.fileIndex.append(file)
-        except:
-            print("inputPath路径错误!")
+        path = os.path.dirname(os.path.realpath(__file__))
+        #self.diagPath = 'Diagnosis.txt'
+        #self.drugPath = 'DrugNames.txt'
+        #self.depaPath = 'DepartmentNames.txt'
+        #self.outputPath = 'output'
+        self.diagPath = os.path.join(path,'Diagnosis.txt')
+        self.drugPath = os.path.join(path,'DrugNames.txt')
+        self.depaPath = os.path.join(path,'DepartmentNames.txt')
+        self.outputPath = os.path.join(path,'output')
+        config_path=os.path.join(path,'config')
+        with open(config_path) as config:
+            data = json.loads(config.read())
+            self.diagPath = data.get('diagnosisPath')
+            self.drugPath = data.get('drugPath')
+            self.depaPath = data.get('departmentPath')
+            self.outputPath = data.get('outputPath')
+            self.fileIndex = []
+            self.infoDict = dict()
 
     def handleWithFile(self,each):
-        path = os.path.join(self.inputPath, each)
+        path = os.path.join(each)
         text = docx2txt.process(path)
         # 分词
         res1 = jieba_posseg(text)
@@ -79,7 +72,7 @@ class handlePrescription(object):
     def handle(self,filename=None):
         self.infoDict = {}
         result = {
-            "prescription_information":[
+            "处方信息":[
                 {
                     "诊断描述":""
                 },
@@ -87,7 +80,7 @@ class handlePrescription(object):
                     "药物信息":""
                 }
             ],
-            "issential_information":{
+            "基本信息":{
                 "姓名":"",
                 "年龄":"",
                 "性别":"",
@@ -143,12 +136,13 @@ class handlePrescription(object):
         self.handle()
 
 def clear(filePath):
-    #direct = "E:\\work\\python\\shumei_medic-develop\\input\\2.docx"
+    #direct = "E:\\work\\python\\shumei_medic-develop\\input\\test1.docx"
     test = handlePrescription()
     data = test.handle(filePath)
+   #print json.dumps(data,ensure_ascii=False,indent=4)
     return data
     #print data
 
 if __name__ == "__main__":
-    clear("E:\\work\\python\\shumei_medic-develop\\input\\2.docx")
+    clear("E:\\work\\python\\shumei_medic-develop\\input\\10.docx")
 
