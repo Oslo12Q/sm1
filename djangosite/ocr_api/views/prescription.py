@@ -55,7 +55,7 @@ def async_analysis_result(request):
     if not file_dest:
         return get_json_response(request, dict(status='running', message='analysis is running.', data=None))
 
-    from sm.data_clear_prescription.main import clear
+    from sm.data_clear_prescription.main import *
     try:
         rsp_data = clear(file_dest)
         
