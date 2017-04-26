@@ -57,7 +57,7 @@ def async_analysis_result(request):
 
     from sm.data_clear_prescription.main import clear
     try:
-        rsp_data = clear(file_dest)
+        rsp_data = clear('C:/repos3/sm/data_clear_prescription/input/test1.docx')
         
         prescription_information, issential_information = rsp_data.get('prescription_information', {}), rsp_data.get('issential_information', [])
         result = dict(prescription_information=prescription_information, issential_information=issential_information)
