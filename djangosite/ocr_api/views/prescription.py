@@ -19,7 +19,7 @@ def prescription(request):
 def get_json_response(request, json_rsp):
     return HttpResponse(json.dumps(json_rsp), content_type='application/json')
 
-def async_prescription(request):
+def async_analysis(request):
     try:
         if request.method != 'POST':
             return get_json_response(request, dict(status='error', message='only POST method supported.', data=None))
@@ -43,7 +43,7 @@ def async_prescription(request):
         return get_json_response(request, dict(suc_id=0, ret_cd=500, ret_ts=long(time.time()), pic_id=0, data=None))
 
 
-def async_prescription_result(request):
+def async_analysis_result(request):
     file_id = request.GET.get('fid') or ''
 
     if not file_id:
@@ -55,12 +55,12 @@ def async_prescription_result(request):
     if not file_dest:
         return get_json_response(request, dict(status='running', message='analysis is running.', data=None))
 
-    from sm.data_cleaning.data_clear import data_clear
+    from sm.data_cler_prescription.main import clear
     try:
         rsp_data = data_clear(file_dest)
         
-        indicators, extra_info, unknown_indicators = rsp_data.get('indicators', []), rsp_data.get('extra_info', {}), rsp_data.get('unknown_indicators', [])
-        result = dict(indicators=indicators, extra_info=extra_info)
+        prescription_information, issential_information = rsp_data.get('prescription_information', {}), rsp_data.get('issential_information', [])
+        result = dict(prescription_information=prescription_information, issential_information=issential_information)
         re = json.dumps(result,ensure_ascii=False)
         
         return get_json_response(request, dict(status='ok', message='success.', data=result))

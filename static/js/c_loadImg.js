@@ -39,7 +39,7 @@ $(function() {
                         $('.upLoadFile').hide();
                         var baseStr=base64.substr(23);
                          $.ajax({
-                            url: '/api/ocr/async_analysis/',
+                            url: '/api/ocr/prescription/async_analysis/',
                             type: 'POST',
                             data: {fileData:baseStr},
                             success: function(msg) {
@@ -67,7 +67,7 @@ $(function() {
     };
         
    function get_ocr_result(fid) {
-        var url = '/api/ocr/async_analysis/result/?fid=' + fid + '&type=info';
+        var url = '/api/ocr/prescription/async_analysis/result/?fid=' + fid + '&type=info';
         $.get(url, function(data) {
             var stringJson=JSON.stringify(data);
                 if (data.status == 'error') {
@@ -88,17 +88,17 @@ $(function() {
                 var table_info="";
                 var table_header="";
                 var numberlist=0;
-                table_info='<tr><td>姓名：'+data.data['基本信息']['姓名']+'</td><td>'+'性别：'+data.data['基本信息']['性别']+'</td><td>'+'年龄：'+data.data['基本信息']['年龄']+'</td></tr><tr><td>科室：'+data.data['基本信息']['科室']+'</td><td>医生：'+data.data['基本信息']['医生']+'</td></tr>';
                 table_header='<h3 style="text-align:center;">'+data.data['基本信息']['医院名称']+'</h3>'
+                table_info='<tr><td>姓名：'+data.data['基本信息']['姓名']+'</td><td>'+'性别：'+data.data['基本信息']['性别']+'</td><td>'+'年龄：'+data.data['基本信息']['年龄']+'</td></tr><tr><td>科室：'+data.data['基本信息']['科室']+'</td><td>医生：'+data.data['基本信息']['医生']+'</td></tr>';
                 $.each(data.data["处方信息"], function(index, data) {
                     $.each(data, function(index1, data2) {
                         numberlist++;
-                        table_str += '<tr><td>' + numberlist + '</td><td>' + index1 + '</td><td>' + data2 + '</td></tr>';
+                        table_str += '<tr><td>' + index1 + '：</td><td colspan="2"  style="text-align: left;>' + data2 + '</td></tr>';
                     })
                 });
-                $('.mainTable').append(table_header);
+                $('.mainTable').before(table_header);
                 $('.tab').append(table_info);
-                $('.table1').append(table_str);
+                $('.tab').append(table_str);
                 $('.mainTable').fadeIn();
                 $('.upInfo>span').html('识别完成,已识别'+numberlist+'条信息。');
         });

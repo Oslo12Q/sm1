@@ -32,8 +32,8 @@ urlpatterns += patterns(
     'sm.djangosite.ocr_api.vieews.prescription',
 
     (r'^prescription/$','prescription'),
-    (r'^async_prescription/$','async_prescription'),
-    (r'^async_prescription_result/$','async_prescription_result'),
+    (r'^prescription/async_analysis/$','async_analysis'),
+    (r'^prescription/async_analysis/result/$','async_analysis_result'),
 )
 
 urlpatterns += patterns(
