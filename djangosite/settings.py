@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'sm.djangosite.ocr_api'
+    'sm.djangosite.ocr_api',
 )
 
 MIDDLEWARE_CLASSES = (
