@@ -62,7 +62,7 @@ def async_analysis_result(request):
         prescription_information, issential_information = rsp_data.get('prescription_information', {}), rsp_data.get('issential_information', [])
         result = dict(prescription_information=prescription_information, issential_information=issential_information)
         re = json.dumps(result,ensure_ascii=False)
-        
+        print re
         return get_json_response(request, dict(status='ok', message='success.', data=result))
     except Exception, err:
         logging.error(err)
