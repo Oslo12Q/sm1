@@ -22,7 +22,7 @@ class handlePrescription(object):
         self.depaPath = 'DepartmentNames.txt'
         self.inputPath = 'input'
         self.outputPath = 'output'
-        with open('sm.data_clear_prescription.config') as config:
+        with open(config_path = path +'./config') as config:
             data = json.loads(config.read())
             self.diagPath = data.get('diagnosisPath')
             self.drugPath = data.get('drugPath')
