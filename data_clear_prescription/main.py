@@ -10,7 +10,7 @@ from prescriptionInfo import *
 from otherInfo import *
 from segtool import *
 import json
-from config import *
+from sm.data_clear_prescription import config
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
