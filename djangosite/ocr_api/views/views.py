@@ -45,7 +45,7 @@ def async_analysis(request):
             return get_json_response(request, dict(status='error', message='file object not found.', data=None))
         file_obj = base64.b64decode(file_obj_base)  
     
-        file_name = 'prefix_{}_{}.jpg'.format(datetime.now().strftime("%Y%m%d%H%M%S"),random.randint(1000, 9999))
+        file_name = 'assay_{}_{}.jpg'.format(datetime.now().strftime("%Y%m%d%H%M%S"),random.randint(1000, 9999))
         file_dest = 'C:/input/{}'.format(file_name)
 
         writer = open(file_dest, 'wb+')
