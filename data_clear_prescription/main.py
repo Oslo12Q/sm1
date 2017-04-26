@@ -14,6 +14,7 @@ import json
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
+path = os.path.dirname(os.path.abs_path(__file__))
 
 class handlePrescription(object):
     def __init__(self):
