@@ -10,7 +10,7 @@ from prescriptionInfo import *
 from otherInfo import *
 from segtool import *
 import json
-path = os.path.dirname(os.path.abspath("config"))
+#path = os.path.dirname(os.path.abspath("config"))
 #config_path = path +'./config'
 import sys
 reload(sys)
@@ -23,7 +23,7 @@ class handlePrescription(object):
         self.depaPath = 'DepartmentNames.txt'
         self.inputPath = 'input'
         self.outputPath = 'output'
-        with open(path) as config:
+        with open('./config') as config:
             data = json.loads(config.read())
             self.diagPath = data.get('diagnosisPath')
             self.drugPath = data.get('drugPath')
