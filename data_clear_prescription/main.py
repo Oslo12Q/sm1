@@ -10,7 +10,7 @@ from prescriptionInfo import *
 from otherInfo import *
 from segtool import *
 import json
-path = os.path.dirname(os.path.abspath(__file__))
+path = os.path.dirname(os.path.abspath("config"))
 #config_path = path +'./config'
 import sys
 reload(sys)
