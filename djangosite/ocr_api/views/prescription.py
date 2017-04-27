@@ -55,9 +55,12 @@ def async_analysis_result(request):
     if not file_dest:
         return get_json_response(request, dict(status='running', message='analysis is running.', data=None))
 
-    from sm.data_clear_prescription.main import clear
+    from sm.data_clear_prescription.main import *
     try:
-        rsp_data = clear('c:/test1.docx')
+        handle = handlePrescription()
+        resp_data = handle.hanlle('c:/test1.docx')
+
+    #    rsp_data = clear('c:/test1.docx')
         
         prescription_information, issential_information = rsp_data.get('prescription_information', {}), rsp_data.get('issential_information', [])
         result = dict(prescription_information=prescription_information, issential_information=issential_information)
