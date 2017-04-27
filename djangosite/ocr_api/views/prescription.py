@@ -58,7 +58,7 @@ def async_analysis_result(request):
     from sm.data_clear_prescription.main import *
     try:
         handle = handlePrescription()
-        resp_data = handle.hanlle('c:/test1.docx')
+        resp_data = handle.handle('c:/test1.docx')
 
     #    rsp_data = clear('c:/test1.docx')
         

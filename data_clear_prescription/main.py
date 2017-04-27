@@ -18,11 +18,11 @@ sys.setdefaultencoding("utf-8")
 class handlePrescription(object):
     def __init__(self):
         path = sys.path[0]
-        self.diagPath = path + "\\" + 'Diagnosis.txt'
-        self.drugPath = path + "\\" + 'DrugNames.txt'
-        self.depaPath = path + "\\" + 'DepartmentNames.txt'
-        self.inputPath = path + "\\" + 'input'
-        self.outputPath = path + "\\" + 'output'
+        self.diagPath = path + "/" + 'Diagnosis.txt'
+        self.drugPath = path + "/" + 'DrugNames.txt'
+        self.depaPath = path + "/" + 'DepartmentNames.txt'
+        self.inputPath = path + "/" + 'input'
+        self.outputPath = path + "/" + 'output'
         self.fileIndex = []
         self.infoDict = dict()
 
@@ -129,7 +129,7 @@ class handlePrescription(object):
             result["issential_information"]["费用"] = self.infoDict.get("cost")
             result["prescription_information"][0]["诊断描述"] = self.infoDict.get("diagnose")
             result["prescription_information"][1]["药物信息"] = self.infoDict.get("medicine")
-            return result
+            return json.dumps(result,ensure_ascii=False,encoding='utf-8')
 
     def main(self):
         self.getfileindex()
@@ -139,7 +139,7 @@ def clear(filePath):
     #direct = "E:\\work\\python\\shumei_medic-develop\\input\\2.docx"
     test = handlePrescription()
     data = test.handle(filePath)
-    return json.dumps(data,ensure_ascii=False,encoding='utf-8')
+    print data
     #print data
 
 if __name__ == "__main__":
