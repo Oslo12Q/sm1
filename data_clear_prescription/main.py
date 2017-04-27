@@ -14,13 +14,15 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+
 class handlePrescription(object):
     def __init__(self):
-        self.diagPath = 'Diagnosis.txt'
-        self.drugPath = 'DrugNames.txt'
-        self.depaPath = 'DepartmentNames.txt'
-        self.inputPath = 'input'
-        self.outputPath = 'output'
+        path = sys.path[0]
+        self.diagPath = path + "\\" + 'Diagnosis.txt'
+        self.drugPath = path + "\\" + 'DrugNames.txt'
+        self.depaPath = path + "\\" + 'DepartmentNames.txt'
+        self.inputPath = path + "\\" + 'input'
+        self.outputPath = path + "\\" + 'output'
         self.fileIndex = []
         self.infoDict = dict()
 
