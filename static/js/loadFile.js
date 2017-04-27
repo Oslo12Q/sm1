@@ -29,33 +29,33 @@ $(function() {
             var filename = file.name;
             var reader = new FileReader();
             reader.readAsDataURL(file);
-            if (fileType.indexOf('image') != -1) {
-                if (fileSize <= 42000000) {
-                    reader.onload = function() {
-                        var base64 = this.result;
-                        var imgClassify = urlData();
-                        upLoadImg.src = base64;
-                        $('.showPreView').append(upLoadImg);
-                        $('.upLoadFile').hide();
-                        var baseStr=base64.substr(23);
-                         $.ajax({
-                            url: '/api/ocr/async_analysis/',
-                            type: 'POST',
-                            data: {fileData:baseStr},
-                            success: function(msg) {
-                                var file_id = msg.data.fid;
-                                $('.upInfo').fadeIn();
-                                get_ocr_result(file_id);
-
-                            }
-                        })
-                    }
-                } else {
-                    showInfo('文件太大');
-                }
-            } else {
-                showInfo('文件格式有误');
+            if(fileType.indexOf('image')==-1){
+                showInfo('上传文件格式有误！');
+                return;
             }
+            if(fileSize>=10485760){
+                showInfo('上传文件太大！');
+                return;
+            }
+            reader.onload = function() {
+                var base64 = this.result;
+                var imgClassify = urlData();
+                upLoadImg.src = base64;
+                $('.showPreView').append(upLoadImg);
+                $('.upLoadFile').hide();
+                var baseStr=base64.substr(23);
+                 $.ajax({
+                    url: '/api/ocr/async_analysis/',
+                    type: 'POST',
+                    data: {fileData:baseStr},
+                    success: function(msg) {
+                        var file_id = msg.data.fid;
+                        $('.upInfo').fadeIn();
+                        get_ocr_result(file_id);
+                    }
+                })
+            }
+
         })
     };
 
