@@ -69,8 +69,8 @@ class handlePrescription(object):
 
     def handle(self,filename=None):
         self.infoDict = {}
-        prescription_information = {
-            "处方信息":[
+        result = {
+            "prescription_information":[
                 {
                     "诊断描述":""
                 },
@@ -117,16 +117,16 @@ class handlePrescription(object):
                     print("diagnosisPath,drugPath,departmentPath,outputPath路径错误！")
         else:
             self.handleWithFile(filename)
-            result["基本信息"]["姓名"] = self.infoDict.get("name")
-            result["基本信息"]["年龄"] = self.infoDict.get("age")
-            result["基本信息"]["性别"] = self.infoDict.get("sex")
-            result["基本信息"]["医院"] = self.infoDict.get("hospital")
-            result["基本信息"]["时间"] = self.infoDict.get("times")
-            result["基本信息"]["医师"] = self.infoDict.get("doctor")
-            result["基本信息"]["科室"] = self.infoDict.get("department")
-            result["基本信息"]["费用"] = self.infoDict.get("cost")
-            result["处方信息"][0]["诊断描述"] = self.infoDict.get("diagnose")
-            result["处方信息"][1]["药物信息"] = self.infoDict.get("medicine")
+            result["issential_information"]["姓名"] = self.infoDict.get("name")
+            result["issential_information"]["年龄"] = self.infoDict.get("age")
+            result["issential_information"]["性别"] = self.infoDict.get("sex")
+            result["issential_information"]["医院"] = self.infoDict.get("hospital")
+            result["issential_information"]["时间"] = self.infoDict.get("times")
+            result["issential_information"]["医师"] = self.infoDict.get("doctor")
+            result["issential_information"]["科室"] = self.infoDict.get("department")
+            result["issential_information"]["费用"] = self.infoDict.get("cost")
+            result["prescription_information"][0]["诊断描述"] = self.infoDict.get("diagnose")
+            result["prescription_information"][1]["药物信息"] = self.infoDict.get("medicine")
             return result
 
     def main(self):
